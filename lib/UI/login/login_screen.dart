@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/login/login_form.dart';
-import 'package:restaurants_app/blocs/bloc.dart';
+import 'package:restaurants_app/blocs/login/bloc/bloc.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 
 class LoginScreen extends StatefulWidget {

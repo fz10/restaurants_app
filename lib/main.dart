@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/home_screen.dart';
+import 'package:restaurants_app/UI/login/login_screen.dart';
 import 'package:restaurants_app/UI/splash_screen.dart';
-import 'package:restaurants_app/blocs/bloc.dart';
+import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
 import 'blocs/simple_bloc_delegate.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:restaurants_app/repositories/user_repository.dart';
 
-main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   BlocSupervisor().delegate = SimpleBlocDelegate();
   runApp(App());
 }
@@ -21,6 +26,20 @@ class _AppState extends State<App> {
   final UserRepository _userRepository = UserRepository();
   AuthenticationBloc _authenticationBloc;
 
+  // void initializeFlutterFire() async {
+  //   try {
+  //     await Firebase.initializeApp();
+  //     setState(() {
+  //       _initialized = true;
+  //     });
+  //   } catch (e) {
+  //     // Set `_error` state to true if Firebase initialization fails
+  //     setState(() {
+  //       _error = true;
+  //     });
+  //   }
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +49,13 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    // if (_error) {
+    //   debugPrint('Something went wrong...');
+    //   return SplashScreen();
+    // }
+    // if (!_initialized) {
+    //   return SplashScreen();
+    // }
     return BlocProvider(
       bloc: _authenticationBloc,
       child: MaterialApp(
@@ -39,8 +65,11 @@ class _AppState extends State<App> {
             if (state is Uninitialized) {
               return SplashScreen();
             }
+            if (state is Unauthenticated) {
+              return LoginScreen(userRepository: _userRepository);
+            }
             if (state is Authenticated) {
-              return HomeScreen(uid: state.displayName);
+              return HomeScreen(uid: state.displayUid);
             }
             return Container();
           },

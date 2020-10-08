@@ -14,12 +14,12 @@ class Uninitialized extends AuthenticationState {
 }
 
 class Authenticated extends AuthenticationState {
-  final String displayName;
+  final String displayUid;
 
-  Authenticated(this.displayName) : super([displayName]);
+  Authenticated(this.displayUid) : super([displayUid]);
 
   @override
-  String toString() => 'Authenticated { displayName: $displayName }';
+  String toString() => 'Authenticated { displayUid: $displayUid }';
 }
 
 class Unauthenticated extends AuthenticationState {
