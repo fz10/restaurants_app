@@ -26,20 +26,6 @@ class _AppState extends State<App> {
   final UserRepository _userRepository = UserRepository();
   AuthenticationBloc _authenticationBloc;
 
-  // void initializeFlutterFire() async {
-  //   try {
-  //     await Firebase.initializeApp();
-  //     setState(() {
-  //       _initialized = true;
-  //     });
-  //   } catch (e) {
-  //     // Set `_error` state to true if Firebase initialization fails
-  //     setState(() {
-  //       _error = true;
-  //     });
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -49,13 +35,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    // if (_error) {
-    //   debugPrint('Something went wrong...');
-    //   return SplashScreen();
-    // }
-    // if (!_initialized) {
-    //   return SplashScreen();
-    // }
     return BlocProvider(
       bloc: _authenticationBloc,
       child: MaterialApp(
