@@ -12,6 +12,8 @@ class Restaurant {
   final DateTime close;
   final Map<String, dynamic> tables;
   final Map<String, dynamic> menu;
+
+  
   Restaurant({
     this.name,
     this.adminId,
@@ -23,7 +25,6 @@ class Restaurant {
     this.tables,
     this.menu,
   });
-  
 
 
   Restaurant copyWith({

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/home_screen.dart';
+import 'package:restaurants_app/UI/initial_screen.dart';
 import 'package:restaurants_app/UI/login/login_screen.dart';
 import 'package:restaurants_app/UI/splash_screen.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
@@ -38,6 +39,7 @@ class _AppState extends State<App> {
     return BlocProvider(
       bloc: _authenticationBloc,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: BlocBuilder(
           bloc: _authenticationBloc,
           builder: (BuildContext context, AuthenticationState state) {
@@ -45,7 +47,7 @@ class _AppState extends State<App> {
               return SplashScreen();
             }
             if (state is Unauthenticated) {
-              return LoginScreen(userRepository: _userRepository);
+              return InitialScreen(userRepository: _userRepository);
             }
             if (state is Authenticated) {
               return HomeScreen(uid: state.displayUid);

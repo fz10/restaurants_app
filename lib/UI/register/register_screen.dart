@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/register/register_form.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/blocs/register/bloc/bloc.dart';
+import 'package:restaurants_app/resources/style.dart';
 
 class RegisterScreen extends StatefulWidget {
   final UserRepository _userRepository;
@@ -29,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register Screen')),
+      appBar: AppBar(backgroundColor: brandColor, title: Text('Register Screen')),
       body: Center(
         child: BlocProvider<RegisterBloc>(
           bloc: _registerBloc,
