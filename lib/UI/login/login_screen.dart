@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/login/login_form.dart';
 import 'package:restaurants_app/blocs/login/bloc/bloc.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
-import 'package:restaurants_app/resources/style.dart';
 
 class LoginScreen extends StatefulWidget {
+  final String _role;
   final UserRepository _userRepository;
 
-  LoginScreen({Key key, @required UserRepository userRepository})
+  LoginScreen({Key key, @required String role, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
+        _role = role,
         super(key: key);
 
   State<LoginScreen> createState() => _LoginScreenState();
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocProvider<LoginBloc>(
         bloc: _loginBloc,
-        child: LoginForm(userRepository: _userRepository),
+        child: LoginForm(role: widget._role, userRepository: _userRepository),
       ),
     );
   }

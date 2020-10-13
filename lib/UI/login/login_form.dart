@@ -10,11 +10,13 @@ import 'package:restaurants_app/widgets/create_account_button.dart';
 import 'package:restaurants_app/widgets/login_button.dart';
 
 class LoginForm extends StatefulWidget {
+  final String _role;
   final UserRepository _userRepository;
 
-  LoginForm({Key key, @required UserRepository userRepository})
+  LoginForm({Key key, @required String role, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
+        _role = role,
         super(key: key);
 
   State<LoginForm> createState() => _LoginFormState();
@@ -166,7 +168,7 @@ class _LoginFormState extends State<LoginForm> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18)),
-                                CreateAccountButton(
+                                CreateAccountButton(role: widget._role,
                                     userRepository: _userRepository),
                               ],
                             ),
@@ -231,6 +233,7 @@ class _LoginFormState extends State<LoginForm> {
   void _onFormSubmitted() {
     _loginBloc.dispatch(
       LoginWithCredentialsPressed(
+        role: widget._role,
         email: _emailController.text,
         password: _passwordController.text,
       ),

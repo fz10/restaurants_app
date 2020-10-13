@@ -8,6 +8,12 @@ import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/register_button.dart';
 
 class RegisterForm extends StatefulWidget {
+  final String _role;
+
+  RegisterForm({Key key, @required String role})
+      : _role = role,
+        super(key: key);
+
   State<RegisterForm> createState() => _RegisterFormState();
 }
 
@@ -143,10 +149,9 @@ class _RegisterFormState extends State<RegisterForm> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: RegisterButton(
-                          onPressed: isRegisterButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
-                        ),
+                            onPressed: isRegisterButtonEnabled(state)
+                                ? _onFormSubmitted
+                                : null),
                       ),
                     ],
                   ),
@@ -206,6 +211,7 @@ class _RegisterFormState extends State<RegisterForm> {
   void _onFormSubmitted() {
     _registerBloc.dispatch(
       Submitted(
+        role: widget._role,
         email: _emailController.text,
         password: _passwordController.text,
       ),

@@ -40,10 +40,11 @@ class Submitted extends LoginEvent {
 }
 
 class LoginWithCredentialsPressed extends LoginEvent {
+  final String role;
   final String email;
   final String password;
 
-  LoginWithCredentialsPressed({@required this.email, @required this.password})
+  LoginWithCredentialsPressed({@required this.role, @required this.email, @required this.password})
       : super([email, password]);
 
   @override

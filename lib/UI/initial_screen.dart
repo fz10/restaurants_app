@@ -85,7 +85,7 @@ class InitialScreen extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return LoginScreen(userRepository: _userRepository);
+            return LoginScreen(role: 'client', userRepository: _userRepository);
           }));
         },
       ),
@@ -119,7 +119,7 @@ class InitialScreen extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return LoginScreen(userRepository: _userRepository);
+            return LoginScreen(role: 'admin',userRepository: _userRepository);
           }));
         },
       ),

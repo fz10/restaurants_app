@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/register/register_form.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/blocs/register/bloc/bloc.dart';
-import 'package:restaurants_app/resources/style.dart';
 
 class RegisterScreen extends StatefulWidget {
   final UserRepository _userRepository;
+  final String _role;
 
-  RegisterScreen({Key key, @required UserRepository userRepository})
+  RegisterScreen({Key key, @required UserRepository userRepository, String role})
       : assert(userRepository != null),
         _userRepository = userRepository,
+        _role = role,
         super(key: key);
 
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -33,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Center(
         child: BlocProvider<RegisterBloc>(
           bloc: _registerBloc,
-          child: RegisterForm(),
+          child: RegisterForm(role: widget._role),
         ),
       ),
     );

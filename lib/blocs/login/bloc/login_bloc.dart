@@ -66,6 +66,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapLoginWithCredentialsPressedToState({
+    String role,
     String email,
     String password,
   }) async* {

@@ -4,11 +4,13 @@ import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 
 class CreateAccountButton extends StatelessWidget {
+  final String _role;
   final UserRepository _userRepository;
 
-  CreateAccountButton({Key key, @required UserRepository userRepository})
+  CreateAccountButton({Key key, @required String role, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
+        _role = role,
         super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class CreateAccountButton extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) {
-            return RegisterScreen(userRepository: _userRepository);
+            return RegisterScreen(role: _role,userRepository: _userRepository);
           }),
         );
       },
