@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
 import 'package:restaurants_app/blocs/register/bloc/bloc.dart';
+import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/register_button.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -52,6 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
           Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }
         if (state.isFailure) {
           Scaffold.of(context)
@@ -73,48 +77,111 @@ class _RegisterFormState extends State<RegisterForm> {
       child: BlocBuilder(
         bloc: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
-          return Padding(
-            padding: EdgeInsets.all(20),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
+          return Stack(children: [
+            getBackgroundImageBlur(),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: new AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  color: Colors.white,
+                  onPressed: () => moveToLastScreen(),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+              ),
+              body: Padding(
+                padding: EdgeInsets.all(20),
+                child: Form(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Text(
+                            'Sign up',
+                            style: title2,
+                          )),
+                      SizedBox(height: 40),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.email),
+                          labelText: 'Email',
+                        ),
+                        autocorrect: false,
+                        autovalidate: true,
+                        validator: (_) {
+                          return !state.isEmailValid ? 'Invalid Email' : null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.email),
+                          labelText: 'Password',
+                        ),
+                        obscureText: true,
+                        autocorrect: false,
+                        autovalidate: true,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? 'Invalid Password'
+                              : null;
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: RegisterButton(
+                          onPressed: isRegisterButtonEnabled(state)
+                              ? _onFormSubmitted
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  RegisterButton(
-                    onPressed: isRegisterButtonEnabled(state)
-                        ? _onFormSubmitted
-                        : null,
-                  ),
-                ],
+                ),
               ),
             ),
-          );
+          ]);
         },
       ),
     );
+  }
+
+  Widget getBackgroundImageBlur() {
+    double _sigmaX = 20.0;
+    double _sigmaY = 20.0;
+    double _opacity = 0.2;
+
+    return Container(
+      constraints: BoxConstraints.expand(),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/InitBackgroundImage.jpg'),
+            fit: BoxFit.cover),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: _sigmaX, sigmaY: _sigmaY),
+        child: Container(
+          color: Colors.black.withOpacity(_opacity),
+        ),
+      ),
+    );
+  }
+
+  void moveToLastScreen() {
+    Navigator.pop(context);
   }
 
   @override

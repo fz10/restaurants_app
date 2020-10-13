@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurants_app/resources/style.dart';
 
 class RegisterButton extends StatelessWidget {
   final VoidCallback _onPressed;
@@ -9,12 +10,20 @@ class RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
+    return SizedBox(
+      
+      height: 45,
+      child: RaisedButton(
+        color: brandColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        onPressed: _onPressed,
+        child: Text(
+          'Register',
+          style: normalButton,
+        ),
       ),
-      onPressed: _onPressed,
-      child: Text('Register'),
     );
   }
 }

@@ -30,7 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: brandColor, title: Text('Register Screen')),
       body: Center(
         child: BlocProvider<RegisterBloc>(
           bloc: _registerBloc,

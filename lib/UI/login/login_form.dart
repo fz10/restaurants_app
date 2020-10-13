@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/blocs/login/bloc/bloc.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
+import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/create_account_button.dart';
 import 'package:restaurants_app/widgets/login_button.dart';
 
@@ -75,66 +78,135 @@ class _LoginFormState extends State<LoginForm> {
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
+          Navigator.of(context).pop();
         }
       },
       child: BlocBuilder(
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
-          return Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/logo.png', height: 150),
-                  ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(
-                          onPressed: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
+          return Stack(children: [
+            getBackgroundImageBlur(),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: new AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  color: Colors.white,
+                  onPressed: () => moveToLastScreen(),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+              ),
+              body: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Form(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Text(
+                            'Log in to your account',
+                            style: title2,
+                          )),
+                      SizedBox(height: 40),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.email),
+                          labelText: 'Email',
                         ),
-                        CreateAccountButton(userRepository: _userRepository),
-                      ],
-                    ),
+                        autovalidate: true,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isEmailValid ? 'Invalid Email' : null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          fillColor: Colors.white,
+                          focusColor: Colors.white,
+                          prefixIcon: Icon(Icons.lock),
+                          labelText: 'Password',
+                        ),
+                        obscureText: true,
+                        autovalidate: true,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? 'Invalid Password'
+                              : null;
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            LoginButton(
+                              onPressed: isLoginButtonEnabled(state)
+                                  ? _onFormSubmitted
+                                  : null,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Don\'t have an account?',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18)),
+                                CreateAccountButton(
+                                    userRepository: _userRepository),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          );
+          ]);
         },
       ),
     );
+  }
+
+  Widget getBackgroundImageBlur() {
+    double _sigmaX = 20.0;
+    double _sigmaY = 20.0;
+    double _opacity = 0.2;
+
+    return Container(
+      constraints: BoxConstraints.expand(),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/InitBackgroundImage.jpg'),
+            fit: BoxFit.cover),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: _sigmaX, sigmaY: _sigmaY),
+        child: Container(
+          color: Colors.black.withOpacity(_opacity),
+        ),
+      ),
+    );
+  }
+
+  void moveToLastScreen() {
+    Navigator.pop(context);
   }
 
   @override

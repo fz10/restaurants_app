@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurants_app/UI/register/register_screen.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
+import 'package:restaurants_app/resources/style.dart';
 
 class CreateAccountButton extends StatelessWidget {
   final UserRepository _userRepository;
@@ -14,7 +15,12 @@ class CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: Text(
-        'Create an Account',
+        'Sign up',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
       ),
       onPressed: () {
         Navigator.of(context).push(
