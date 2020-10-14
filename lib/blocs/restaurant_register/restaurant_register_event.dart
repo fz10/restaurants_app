@@ -1,4 +1,4 @@
-part of 'register_bloc.dart';
+part of 'restaurant_register_bloc.dart';
 
 @immutable
 abstract class RegisterEvent extends Equatable {
@@ -24,11 +24,16 @@ class PasswordChanged extends RegisterEvent {
 }
 
 class Submitted extends RegisterEvent {
-  final String role;
+  final Client client;
+  final Restaurant restaurant;
   final String email;
   final String password;
 
-  Submitted({@required this.role, @required this.email, @required this.password})
+  Submitted(
+      {@required this.client,
+      @required this.restaurant,
+      @required this.email,
+      @required this.password})
       : super([email, password]);
 
   @override

@@ -8,12 +8,10 @@ class Restaurant {
   final String cuisine;
   final String phone;
   final String address;
-  final DateTime open;
-  final DateTime close;
+  final String open;
+  final String close;
   final Map<String, dynamic> tables;
   final Map<String, dynamic> menu;
-
-  
   Restaurant({
     this.name,
     this.adminId,
@@ -26,15 +24,14 @@ class Restaurant {
     this.menu,
   });
 
-
   Restaurant copyWith({
     String name,
     String adminId,
     String cuisine,
     String phone,
     String address,
-    DateTime open,
-    DateTime close,
+    String open,
+    String close,
     Map<String, dynamic> tables,
     Map<String, dynamic> menu,
   }) {
@@ -58,8 +55,8 @@ class Restaurant {
       'cuisine': cuisine,
       'phone': phone,
       'address': address,
-      'open': open?.millisecondsSinceEpoch,
-      'close': close?.millisecondsSinceEpoch,
+      'open': open,
+      'close': close,
       'tables': tables,
       'menu': menu,
     };
@@ -67,15 +64,15 @@ class Restaurant {
 
   factory Restaurant.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return Restaurant(
       name: map['name'],
       adminId: map['adminId'],
       cuisine: map['cuisine'],
       phone: map['phone'],
       address: map['address'],
-      open: DateTime.fromMillisecondsSinceEpoch(map['open']),
-      close: DateTime.fromMillisecondsSinceEpoch(map['close']),
+      open: map['open'],
+      close: map['close'],
       tables: Map<String, dynamic>.from(map['tables']),
       menu: Map<String, dynamic>.from(map['menu']),
     );
@@ -83,7 +80,8 @@ class Restaurant {
 
   String toJson() => json.encode(toMap());
 
-  factory Restaurant.fromJson(String source) => Restaurant.fromMap(json.decode(source));
+  factory Restaurant.fromJson(String source) =>
+      Restaurant.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -93,29 +91,29 @@ class Restaurant {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is Restaurant &&
-      o.name == name &&
-      o.adminId == adminId &&
-      o.cuisine == cuisine &&
-      o.phone == phone &&
-      o.address == address &&
-      o.open == open &&
-      o.close == close &&
-      mapEquals(o.tables, tables) &&
-      mapEquals(o.menu, menu);
+        o.name == name &&
+        o.adminId == adminId &&
+        o.cuisine == cuisine &&
+        o.phone == phone &&
+        o.address == address &&
+        o.open == open &&
+        o.close == close &&
+        mapEquals(o.tables, tables) &&
+        mapEquals(o.menu, menu);
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      adminId.hashCode ^
-      cuisine.hashCode ^
-      phone.hashCode ^
-      address.hashCode ^
-      open.hashCode ^
-      close.hashCode ^
-      tables.hashCode ^
-      menu.hashCode;
+        adminId.hashCode ^
+        cuisine.hashCode ^
+        phone.hashCode ^
+        address.hashCode ^
+        open.hashCode ^
+        close.hashCode ^
+        tables.hashCode ^
+        menu.hashCode;
   }
 }

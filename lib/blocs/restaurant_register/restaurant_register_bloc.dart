@@ -3,18 +3,19 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:restaurants_app/models/models.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/blocs/validators.dart';
 
-part 'register_event.dart';
-part 'register_state.dart';
+part 'restaurant_register_event.dart';
+part 'restaurant_register_state.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+class RestaurantRegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final UserRepository _userRepository;
 
-  RegisterBloc({@required UserRepository userRepository})
+  RestaurantRegisterBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository;
 
@@ -45,7 +46,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.role, event.email, event.password);
+      yield* _mapFormSubmittedToState(
+          event.client, event.restaurant, event.email, event.password);
     }
   }
 
@@ -62,7 +64,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   Stream<RegisterState> _mapFormSubmittedToState(
-    String role,
+    Client client,
+    Restaurant restaurant,
     String email,
     String password,
   ) async* {
@@ -73,7 +76,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             email: email,
             password: password,
           )
-          .then((value) => _userRepository.addUser(role, email));
+          .then((value) => _userRepository.addUser(client))
+          .then((value) => _userRepository.addRestaurant(restaurant));
       yield RegisterState.success();
     } catch (_) {
       yield RegisterState.failure();

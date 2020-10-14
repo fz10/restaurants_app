@@ -3,25 +3,29 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
-import 'package:restaurants_app/blocs/register/bloc/bloc.dart';
+import 'package:restaurants_app/blocs/client_register/bloc/bloc.dart';
+import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/register_button.dart';
 
-class RegisterForm extends StatefulWidget {
+class ClientRegisterForm extends StatefulWidget {
   final String _role;
 
-  RegisterForm({Key key, @required String role})
+  ClientRegisterForm({Key key, @required String role})
       : _role = role,
         super(key: key);
 
-  State<RegisterForm> createState() => _RegisterFormState();
+  State<ClientRegisterForm> createState() => _ClientRegisterForm();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _ClientRegisterForm extends State<ClientRegisterForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
-  RegisterBloc _registerBloc;
+  ClientRegisterBloc _registerBloc;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
@@ -33,7 +37,7 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = BlocProvider.of<RegisterBloc>(context);
+    _registerBloc = BlocProvider.of<ClientRegisterBloc>(context);
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
   }
@@ -134,7 +138,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               borderRadius: BorderRadius.circular(10)),
                           filled: true,
                           fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.email),
+                          prefixIcon: Icon(Icons.lock),
                           labelText: 'Password',
                         ),
                         obscureText: true,
@@ -145,6 +149,55 @@ class _RegisterFormState extends State<RegisterForm> {
                               ? 'Invalid Password'
                               : null;
                         },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.face),
+                          labelText: 'Name',
+                        ),
+                        autocorrect: false,
+                        autovalidate: true,
+                        validator: (_) {},
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _lastController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.face),
+                          labelText: 'Last name',
+                        ),
+                        autocorrect: false,
+                        autovalidate: true,
+                        validator: (_) {},
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.phone),
+                          labelText: 'Phone number',
+                        ),
+                        keyboardType: TextInputType.number,
+                        autocorrect: false,
+                        autovalidate: true,
+                        validator: (_) {},
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20),
@@ -193,6 +246,9 @@ class _RegisterFormState extends State<RegisterForm> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _nameController.dispose();
+    _lastController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -211,7 +267,14 @@ class _RegisterFormState extends State<RegisterForm> {
   void _onFormSubmitted() {
     _registerBloc.dispatch(
       Submitted(
-        role: widget._role,
+        client: Client(
+          role: 'client',
+          name: _nameController.text,
+          last: _lastController.text,
+          email: _emailController.text,
+          phone: _phoneController.text,
+          regDate: DateTime.now(),
+        ),
         email: _emailController.text,
         password: _passwordController.text,
       ),

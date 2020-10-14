@@ -1,28 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:restaurants_app/models/models.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference _restaurants =
+      FirebaseFirestore.instance.collection('restaurants');
 
   UserRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
-  Future<void> addUser(String role, String email) {
+  Future<void> addUser(Client client) {
     // Call the user's CollectionReference to add a new user
     String uid = _firebaseAuth.currentUser.uid;
-    return _users.doc(uid).set({
-      'role': role,
-      'email': email,
-    });
+    return _users.doc(uid).set(client.toMap());
   }
 
-  Future<String> getRole() async {
+  Future<void> addRestaurant(Restaurant restaurant) {
     // Call the user's CollectionReference to add a new user
     String uid = _firebaseAuth.currentUser.uid;
-    var document = await _users.doc(uid).get();
-    return document.data()['role'];
+    var newRestRef = _restaurants.doc();
+    return newRestRef
+        .set(restaurant.toMap())
+        .then((value) => newRestRef.update({'adminId': uid}));
   }
 
   Future<void> signInWithCredentials(String email, String password) {

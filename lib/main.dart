@@ -3,10 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/home_screen.dart';
 import 'package:restaurants_app/UI/initial_screen.dart';
-import 'package:restaurants_app/UI/login/login_screen.dart';
 import 'package:restaurants_app/UI/splash_screen.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
-import 'package:restaurants_app/resources/style.dart';
 import 'blocs/simple_bloc_delegate.dart';
 
 import 'package:firebase_core/firebase_core.dart';

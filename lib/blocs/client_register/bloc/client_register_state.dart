@@ -1,4 +1,4 @@
-part of 'register_bloc.dart';
+part of 'client_register_bloc.dart';
 
 
 @immutable

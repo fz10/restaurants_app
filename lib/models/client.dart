@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class User {
+class Client {
   final String role;
   final String name;
   final String last;
   final String email;
   final String phone;
   final DateTime regDate;
-  User({
+  Client({
     this.role,
     this.name,
     this.last,
@@ -16,7 +16,7 @@ class User {
     this.regDate,
   });
 
-  User copyWith({
+  Client copyWith({
     String role,
     String name,
     String last,
@@ -24,7 +24,7 @@ class User {
     String phone,
     DateTime regDate,
   }) {
-    return User(
+    return Client(
       role: role ?? this.role,
       name: name ?? this.name,
       last: last ?? this.last,
@@ -45,10 +45,10 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
+  factory Client.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
   
-    return User(
+    return Client(
       role: map['role'],
       name: map['name'],
       last: map['last'],
@@ -60,7 +60,7 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory Client.fromJson(String source) => Client.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -71,7 +71,7 @@ class User {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
   
-    return o is User &&
+    return o is Client &&
       o.role == role &&
       o.name == name &&
       o.last == last &&

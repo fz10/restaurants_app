@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
+import 'package:restaurants_app/resources/style.dart';
 
 class HomeScreen extends StatelessWidget {
   final String uid;
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Screen'),
+        backgroundColor: brandColor,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
