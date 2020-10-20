@@ -19,7 +19,7 @@ class RegisterButton extends StatelessWidget {
         ),
         onPressed: _onPressed,
         child: Text(
-          'Register',
+          'Registrarse',
           style: normalButton,
         ),
       ),

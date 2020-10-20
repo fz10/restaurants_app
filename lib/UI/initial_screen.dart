@@ -78,7 +78,7 @@ class InitialScreen extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Text(
-              'Client',
+              'Cliente',
               style: buttonTitle,
             ),
           ],
@@ -112,7 +112,7 @@ class InitialScreen extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Text(
-              'Restaurant',
+              'Restaurante',
               style: buttonTitle,
             ),
           ],

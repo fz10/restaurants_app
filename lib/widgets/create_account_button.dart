@@ -18,7 +18,7 @@ class CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: Text(
-        'Sign up',
+        'Regístrate',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

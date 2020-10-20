@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Login Failure'), Icon(Icons.error)],
+                  children: [Text('Ingreso inválido'), Icon(Icons.error)],
                 ),
                 backgroundColor: Colors.red,
               ),
@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Logging In...'),
+                    Text('Ingresando...'),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -107,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                       Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            'Log in to your account',
+                            'Ingresa a tu cuenta',
                             style: title2,
                           )),
                       SizedBox(height: 40),
@@ -120,7 +120,7 @@ class _LoginFormState extends State<LoginForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.email),
-                          labelText: 'Email',
+                          labelText: 'Correo',
                         ),
                         autovalidate: true,
                         autocorrect: false,
@@ -139,7 +139,7 @@ class _LoginFormState extends State<LoginForm> {
                           fillColor: Colors.white,
                           focusColor: Colors.white,
                           prefixIcon: Icon(Icons.lock),
-                          labelText: 'Password',
+                          labelText: 'Contraseña',
                         ),
                         obscureText: true,
                         autovalidate: true,
@@ -163,7 +163,7 @@ class _LoginFormState extends State<LoginForm> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Don\'t have an account?',
+                                Text('¿No tienes una cuenta?',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

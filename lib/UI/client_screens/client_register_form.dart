@@ -55,7 +55,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registering...'),
+                    Text('Registrando...'),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -75,7 +75,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registration Failure'),
+                    Text('Registro inválido'),
                     Icon(Icons.error),
                   ],
                 ),
@@ -108,7 +108,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                       Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            'Sign up',
+                            'Regístrate',
                             style: title2,
                           )),
                       SizedBox(height: 40),
@@ -121,7 +121,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.email),
-                          labelText: 'Email',
+                          labelText: 'Correo',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -139,7 +139,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.lock),
-                          labelText: 'Password',
+                          labelText: 'Contraseña',
                         ),
                         obscureText: true,
                         autocorrect: false,
@@ -160,7 +160,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.face),
-                          labelText: 'Name',
+                          labelText: 'Nombre',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -176,7 +176,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.face),
-                          labelText: 'Last name',
+                          labelText: 'Apellido',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -192,7 +192,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.phone),
-                          labelText: 'Phone number',
+                          labelText: 'Teléfono',
                         ),
                         keyboardType: TextInputType.number,
                         autocorrect: false,

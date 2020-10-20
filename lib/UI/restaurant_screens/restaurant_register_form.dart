@@ -41,14 +41,14 @@ class _RegisterFormState extends State<RegisterForm> {
   UserRepository get _userRepository => widget._userRepository;
 
   var _cuisines = [
-    'Fast',
-    'Chinese',
-    'Japanese',
-    'Italian',
-    'French',
-    'Mexican',
-    'Colombian',
-    'Other'
+    'Comida rápida',
+    'China',
+    'Japonesa',
+    'Italiana',
+    'Francesa',
+    'Mexicana',
+    'Colombiana',
+    'Otra'
   ];
 
   var _currentItemSelected = '';
@@ -82,7 +82,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registering...'),
+                    Text('Registrando...'),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -102,7 +102,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registration Failure'),
+                    Text('Registro inválido'),
                     Icon(Icons.error),
                   ],
                 ),
@@ -135,7 +135,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            'Sign up',
+                            'Regístrate',
                             style: title2,
                           )),
                       SizedBox(height: 40),
@@ -148,7 +148,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.email),
-                          labelText: 'Email',
+                          labelText: 'Correo',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -166,7 +166,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.lock),
-                          labelText: 'Password',
+                          labelText: 'Contraseña',
                         ),
                         obscureText: true,
                         autocorrect: false,
@@ -187,7 +187,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.restaurant),
-                          labelText: 'Name',
+                          labelText: 'Nombre',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -224,7 +224,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.phone),
-                          labelText: 'Phone',
+                          labelText: 'Teléfono',
                         ),
                         keyboardType: TextInputType.number,
                         autocorrect: false,
@@ -241,7 +241,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           filled: true,
                           fillColor: Colors.white,
                           prefixIcon: Icon(Icons.home),
-                          labelText: 'Address',
+                          labelText: 'Dirección',
                         ),
                         autocorrect: false,
                         autovalidate: true,
@@ -256,7 +256,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               borderRadius: BorderRadius.circular(10)),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Tables quantity',
+                          labelText: 'Mesas totales',
                         ),
                         keyboardType: TextInputType.number,
                         autocorrect: false,
@@ -273,13 +273,13 @@ class _RegisterFormState extends State<RegisterForm> {
                           prefixIcon: Icon(Icons.access_time),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Open time',
+                          labelText: 'Hora apertura',
                         ),
                         onTap: () {
                           DatePicker.showTimePicker(
                             context,
                             showSecondsColumn: false,
-                            onChanged: (time) {
+                            onConfirm: (time) {
                               setState(() {
                                 _openController.text =
                                     DateFormat.Hm().format(time);
@@ -302,13 +302,13 @@ class _RegisterFormState extends State<RegisterForm> {
                           prefixIcon: Icon(Icons.access_time),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Close time',
+                          labelText: 'Hora cierre',
                         ),
                         onTap: () {
                           DatePicker.showTimePicker(
                             context,
                             showSecondsColumn: false,
-                            onChanged: (time) {
+                            onConfirm: (time) {
                               setState(() {
                                 _closeController.text =
                                     DateFormat.Hm().format(time);
