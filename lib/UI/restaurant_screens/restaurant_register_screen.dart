@@ -33,7 +33,7 @@ class _RestaurantRegisterScreen extends State<RestaurantRegisterScreen> {
     return Scaffold(
       body: Center(
         child: BlocProvider<RestaurantRegisterBloc>(
-          bloc: _registerBloc,
+          create: (context) => _registerBloc,
           child: RegisterForm(userRepository: widget._userRepository, role: widget._role),
         ),
       ),
@@ -42,7 +42,7 @@ class _RestaurantRegisterScreen extends State<RestaurantRegisterScreen> {
 
   @override
   void dispose() {
-    _registerBloc.dispose();
+    _registerBloc.close();
     super.dispose();
   }
 }

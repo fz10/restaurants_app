@@ -33,7 +33,7 @@ class _ClientRegisterScreen extends State<ClientRegisterScreen> {
     return Scaffold(
       body: Center(
         child: BlocProvider<ClientRegisterBloc>(
-          bloc: _registerBloc,
+          create: (context) => _registerBloc,
           child: ClientRegisterForm(role: widget._role),
         ),
       ),
@@ -42,7 +42,7 @@ class _ClientRegisterScreen extends State<ClientRegisterScreen> {
 
   @override
   void dispose() {
-    _registerBloc.dispose();
+    _registerBloc.close();
     super.dispose();
   }
 }

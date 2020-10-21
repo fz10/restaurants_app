@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:restaurants_app/models/models.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/blocs/validators.dart';
@@ -17,25 +16,8 @@ class RestaurantRegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   RestaurantRegisterBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository;
-
-  @override
-  RegisterState get initialState => RegisterState.empty();
-
-  @override
-  Stream<RegisterState> transform(
-    Stream<RegisterEvent> events,
-    Stream<RegisterState> Function(RegisterEvent event) next,
-  ) {
-    final observableStream = events as Observable<RegisterEvent>;
-    final nonDebounceStream = observableStream.where((event) {
-      return (event is! EmailChanged && event is! PasswordChanged);
-    });
-    final debounceStream = observableStream.where((event) {
-      return (event is EmailChanged || event is PasswordChanged);
-    }).debounce(Duration(milliseconds: 300));
-    return super.transform(nonDebounceStream.mergeWith([debounceStream]), next);
-  }
+        _userRepository = userRepository,
+        super(RegisterState.empty());
 
   @override
   Stream<RegisterState> mapEventToState(
@@ -52,13 +34,13 @@ class RestaurantRegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   Stream<RegisterState> _mapEmailChangedToState(String email) async* {
-    yield currentState.update(
+    yield state.update(
       isEmailValid: Validators.isValidEmail(email),
     );
   }
 
   Stream<RegisterState> _mapPasswordChangedToState(String password) async* {
-    yield currentState.update(
+    yield state.update(
       isPasswordValid: Validators.isValidPassword(password),
     );
   }

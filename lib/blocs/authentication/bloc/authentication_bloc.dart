@@ -14,7 +14,8 @@ class AuthenticationBloc
 
   AuthenticationBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository, super();
+        _userRepository = userRepository,
+        super(null);
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -52,6 +53,5 @@ class AuthenticationBloc
     _userRepository.signOut();
   }
 
-  @override
   AuthenticationState get initialState => Uninitialized();
 }

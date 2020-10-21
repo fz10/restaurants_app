@@ -8,7 +8,8 @@ class LoginScreen extends StatefulWidget {
   final String _role;
   final UserRepository _userRepository;
 
-  LoginScreen({Key key, @required String role, @required UserRepository userRepository})
+  LoginScreen(
+      {Key key, @required String role, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         _role = role,
@@ -33,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<LoginBloc>(
-        bloc: _loginBloc,
+      body: BlocProvider(
+        create: (context) => _loginBloc,
         child: LoginForm(role: widget._role, userRepository: _userRepository),
       ),
     );
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _loginBloc.dispose();
+    _loginBloc.close();
     super.dispose();
   }
 }

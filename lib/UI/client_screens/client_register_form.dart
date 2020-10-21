@@ -45,7 +45,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener(
-      bloc: _registerBloc,
+      cubit: _registerBloc,
       listener: (BuildContext context, RegisterState state) {
         if (state.isSubmitting) {
           Scaffold.of(context)
@@ -63,7 +63,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         }
@@ -85,7 +85,7 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
         }
       },
       child: BlocBuilder(
-        bloc: _registerBloc,
+        cubit: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
           return Stack(children: [
             getBackgroundImageBlur(),
@@ -164,7 +164,6 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                         ),
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -180,7 +179,6 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                         ),
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -197,7 +195,6 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
                         keyboardType: TextInputType.number,
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20),
@@ -253,19 +250,19 @@ class _ClientRegisterForm extends State<ClientRegisterForm> {
   }
 
   void _onEmailChanged() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       EmailChanged(email: _emailController.text),
     );
   }
 
   void _onPasswordChanged() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       PasswordChanged(password: _passwordController.text),
     );
   }
 
   void _onFormSubmitted() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       Submitted(
         client: Client(
           role: 'client',

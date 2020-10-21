@@ -13,7 +13,8 @@ class LoginForm extends StatefulWidget {
   final String _role;
   final UserRepository _userRepository;
 
-  LoginForm({Key key, @required String role, @required UserRepository userRepository})
+  LoginForm(
+      {Key key, @required String role, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         _role = role,
@@ -48,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener(
-      bloc: _loginBloc,
+      cubit: _loginBloc,
       listener: (BuildContext context, LoginState state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -79,12 +80,12 @@ class _LoginFormState extends State<LoginForm> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           Navigator.of(context).pop();
         }
       },
       child: BlocBuilder(
-        bloc: _loginBloc,
+        cubit: _loginBloc,
         builder: (BuildContext context, LoginState state) {
           return Stack(children: [
             getBackgroundImageBlur(),
@@ -168,7 +169,8 @@ class _LoginFormState extends State<LoginForm> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18)),
-                                CreateAccountButton(role: widget._role,
+                                CreateAccountButton(
+                                    role: widget._role,
                                     userRepository: _userRepository),
                               ],
                             ),
@@ -219,19 +221,19 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onEmailChanged() {
-    _loginBloc.dispatch(
+    _loginBloc.add(
       EmailChanged(email: _emailController.text),
     );
   }
 
   void _onPasswordChanged() {
-    _loginBloc.dispatch(
+    _loginBloc.add(
       PasswordChanged(password: _passwordController.text),
     );
   }
 
   void _onFormSubmitted() {
-    _loginBloc.dispatch(
+    _loginBloc.add(
       LoginWithCredentialsPressed(
         role: widget._role,
         email: _emailController.text,

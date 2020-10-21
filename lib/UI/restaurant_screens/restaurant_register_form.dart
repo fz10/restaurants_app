@@ -72,7 +72,7 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener(
-      bloc: _registerBloc,
+      cubit: _registerBloc,
       listener: (BuildContext context, RegisterState state) {
         if (state.isSubmitting) {
           Scaffold.of(context)
@@ -90,7 +90,7 @@ class _RegisterFormState extends State<RegisterForm> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         }
@@ -112,7 +112,7 @@ class _RegisterFormState extends State<RegisterForm> {
         }
       },
       child: BlocBuilder(
-        bloc: _registerBloc,
+        cubit: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
           return Stack(children: [
             getBackgroundImageBlur(),
@@ -191,7 +191,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       Container(
@@ -229,7 +228,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         keyboardType: TextInputType.number,
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -245,7 +243,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -261,7 +258,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         keyboardType: TextInputType.number,
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -290,7 +286,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         readOnly: true,
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       TextFormField(
@@ -319,7 +314,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         readOnly: true,
                         autocorrect: false,
                         autovalidate: true,
-                        validator: (_) {},
                       ),
                       SizedBox(height: 15),
                       Padding(
@@ -379,19 +373,19 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _onEmailChanged() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       EmailChanged(email: _emailController.text),
     );
   }
 
   void _onPasswordChanged() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       PasswordChanged(password: _passwordController.text),
     );
   }
 
   void _onFormSubmitted() {
-    _registerBloc.dispatch(
+    _registerBloc.add(
       Submitted(
         client: Client(role: 'admin', email: _emailController.text),
         restaurant: Restaurant(

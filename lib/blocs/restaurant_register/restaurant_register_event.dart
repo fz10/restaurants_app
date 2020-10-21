@@ -2,7 +2,7 @@ part of 'restaurant_register_bloc.dart';
 
 @immutable
 abstract class RegisterEvent extends Equatable {
-  RegisterEvent([List props = const []]) : super([props]);
+  RegisterEvent([List props = const []]) : super();
 }
 
 class EmailChanged extends RegisterEvent {
@@ -12,6 +12,9 @@ class EmailChanged extends RegisterEvent {
 
   @override
   String toString() => 'EmailChanged { email :$email }';
+
+  @override
+  List<Object> get props => throw UnimplementedError();
 }
 
 class PasswordChanged extends RegisterEvent {
@@ -21,6 +24,9 @@ class PasswordChanged extends RegisterEvent {
 
   @override
   String toString() => 'PasswordChanged { password: $password }';
+
+  @override
+  List<Object> get props => throw UnimplementedError();
 }
 
 class Submitted extends RegisterEvent {
@@ -40,4 +46,7 @@ class Submitted extends RegisterEvent {
   String toString() {
     return 'Submitted { email: $email, password: $password }';
   }
+
+  @override
+  List<Object> get props => throw UnimplementedError();
 }
