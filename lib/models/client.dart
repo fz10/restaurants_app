@@ -7,6 +7,7 @@ class Client {
   final String email;
   final String phone;
   final DateTime regDate;
+
   Client({
     this.role,
     this.name,
@@ -47,7 +48,7 @@ class Client {
 
   factory Client.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return Client(
       role: map['role'],
       name: map['name'],
@@ -70,23 +71,23 @@ class Client {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is Client &&
-      o.role == role &&
-      o.name == name &&
-      o.last == last &&
-      o.email == email &&
-      o.phone == phone &&
-      o.regDate == regDate;
+        o.role == role &&
+        o.name == name &&
+        o.last == last &&
+        o.email == email &&
+        o.phone == phone &&
+        o.regDate == regDate;
   }
 
   @override
   int get hashCode {
     return role.hashCode ^
-      name.hashCode ^
-      last.hashCode ^
-      email.hashCode ^
-      phone.hashCode ^
-      regDate.hashCode;
+        name.hashCode ^
+        last.hashCode ^
+        email.hashCode ^
+        phone.hashCode ^
+        regDate.hashCode;
   }
 }

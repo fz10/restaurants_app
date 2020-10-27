@@ -30,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is LoginWithCredentialsPressed) {
       yield* _mapLoginWithCredentialsPressedToState(
+        role: event.role,
         email: event.email,
         password: event.password,
       );
@@ -56,7 +57,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginState.loading();
     try {
       await _userRepository.signInWithCredentials(email, password);
-      yield LoginState.success();
+      final isRoleValid = await _userRepository.getRole(role);
+      if (isRoleValid) {
+        yield LoginState.success();
+      } else {
+        await _userRepository.signOut();
+        yield LoginState.failure();
+      }
     } catch (_) {
       yield LoginState.failure();
     }
