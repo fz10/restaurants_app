@@ -57,8 +57,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginState.loading();
     try {
       await _userRepository.signInWithCredentials(email, password);
-      final isRoleValid = await _userRepository.getRole(role);
-      if (isRoleValid) {
+      final uRole = await _userRepository.getRole();
+      if (uRole == role) {
         yield LoginState.success();
       } else {
         await _userRepository.signOut();

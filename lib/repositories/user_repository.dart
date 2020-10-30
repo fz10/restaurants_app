@@ -18,17 +18,11 @@ class UserRepository {
     return _users.doc(uid).set(client.toMap());
   }
 
-  Future<bool> getRole(String role) async {
+  Future<String> getRole() async {
     // gets the role of the user who is trying to log in
     String uid = _firebaseAuth.currentUser.uid;
-    bool isRoleValid;
     DocumentSnapshot snapShot = await _users.doc(uid).get();
-    if (snapShot['role'] == role) {
-      isRoleValid = true;
-    } else {
-      isRoleValid = false;
-    }
-    return isRoleValid;
+    return snapShot['role'];
   }
 
   Future<void> addRestaurant(Restaurant restaurant) {
