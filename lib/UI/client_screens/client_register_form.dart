@@ -9,11 +9,7 @@ import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/register_button.dart';
 
 class ClientRegisterForm extends StatefulWidget {
-  final String _role;
-
-  ClientRegisterForm({Key key, @required String role})
-      : _role = role,
-        super(key: key);
+  ClientRegisterForm({Key key, @required String role}) : super(key: key);
 
   State<ClientRegisterForm> createState() => _ClientRegisterForm();
 }

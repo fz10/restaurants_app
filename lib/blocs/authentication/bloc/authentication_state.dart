@@ -13,13 +13,36 @@ class Uninitialized extends AuthenticationState {
   String toString() => 'Uninitialized';
 }
 
-class Authenticated extends AuthenticationState {
-  final String displayUid;
+class AuthenticatedClient extends AuthenticationState {
+  final Client user;
 
-  Authenticated(this.displayUid) : super([displayUid]);
+  AuthenticatedClient({this.user}) : super([user]);
 
   @override
-  String toString() => 'Authenticated { displayUid: $displayUid }';
+  String toString() => 'Authenticated client';
+}
+
+class AuthenticatedRestaurant extends AuthenticationState {
+  final Restaurant restaurant;
+
+  AuthenticatedRestaurant({this.restaurant}) : super([restaurant]);
+
+  @override
+  String toString() => 'Authenticated client';
+}
+
+class NotMenu extends AuthenticationState {
+  final Restaurant restaurant;
+
+  NotMenu(this.restaurant) : super([restaurant]);
+
+  @override
+  String toString() => 'Not Menu';
+}
+
+class Loading extends AuthenticationState {
+  @override
+  String toString() => 'Loading';
 }
 
 class Unauthenticated extends AuthenticationState {

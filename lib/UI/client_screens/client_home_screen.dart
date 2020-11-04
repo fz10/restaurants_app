@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
+import 'package:restaurants_app/models/client.dart';
+import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 
-class HomeScreen extends StatelessWidget {
-  final String uid;
+class ClientHomeScreen extends StatefulWidget {
+  final UserRepository _userRepository;
+  final Client _user;
 
-  HomeScreen({Key key, @required this.uid}) : super(key: key);
+  const ClientHomeScreen({Key key, @required userRepository, Client user})
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        _user = user,
+        super(key: key);
+
+  @override
+  _ClientHomeScreenState createState() => _ClientHomeScreenState();
+}
+
+class _ClientHomeScreenState extends State<ClientHomeScreen> {
+  Client get _user => widget._user;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen'),
+        title: Text('Inicio Cliente'),
         backgroundColor: brandColor,
         actions: <Widget>[
           IconButton(
@@ -28,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Center(child: Text('Welcome $uid!')),
+          Center(child: Text('Welcome ${_user.name} ${_user.last}!')),
         ],
       ),
     );

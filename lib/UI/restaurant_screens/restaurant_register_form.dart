@@ -9,19 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
 import 'package:restaurants_app/blocs/restaurant_register/bloc.dart';
 import 'package:restaurants_app/models/models.dart';
-import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 import 'package:restaurants_app/widgets/register_button.dart';
 
 class RegisterForm extends StatefulWidget {
-  final String _role;
-  final _userRepository;
-
   RegisterForm({Key key, @required userRepository, @required String role})
-      : assert(userRepository != null),
-        _userRepository = userRepository,
-        _role = role,
-        super(key: key);
+      : super(key: key);
 
   State<RegisterForm> createState() => _RegisterFormState();
 }
@@ -37,8 +30,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _closeController = TextEditingController();
 
   RestaurantRegisterBloc _registerBloc;
-
-  UserRepository get _userRepository => widget._userRepository;
 
   var _cuisines = [
     'Comida rápida',
@@ -387,7 +378,10 @@ class _RegisterFormState extends State<RegisterForm> {
   void _onFormSubmitted() {
     _registerBloc.add(
       Submitted(
-        client: Client(role: 'admin', email: _emailController.text),
+        client: Client(
+            role: 'admin',
+            email: _emailController.text,
+            regDate: DateTime.now()),
         restaurant: Restaurant(
           name: _nameController.text,
           cuisine: _currentItemSelected,

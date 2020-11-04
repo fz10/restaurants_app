@@ -1,3 +1,1 @@
-class Reservation {
-  
-}
+class Reservation {}

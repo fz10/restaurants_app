@@ -46,7 +46,7 @@ class RestaurantRegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   Stream<RegisterState> _mapFormSubmittedToState(
-    Client client,
+    Client user,
     Restaurant restaurant,
     String email,
     String password,
@@ -58,7 +58,7 @@ class RestaurantRegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             email: email,
             password: password,
           )
-          .then((value) => _userRepository.addUser(client))
+          .then((value) => _userRepository.addUser(user))
           .then((value) => _userRepository.addRestaurant(restaurant));
       yield RegisterState.success();
     } catch (_) {

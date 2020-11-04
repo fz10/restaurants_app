@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Restaurant {
+  final String id;
   final String name;
   final String adminId;
   final String cuisine;
@@ -12,7 +13,9 @@ class Restaurant {
   final String close;
   final Map<String, dynamic> tables;
   final Map<String, dynamic> menu;
+
   Restaurant({
+    this.id,
     this.name,
     this.adminId,
     this.cuisine,
@@ -25,6 +28,7 @@ class Restaurant {
   });
 
   Restaurant copyWith({
+    String id,
     String name,
     String adminId,
     String cuisine,
@@ -36,6 +40,7 @@ class Restaurant {
     Map<String, dynamic> menu,
   }) {
     return Restaurant(
+      id: id ?? this.id,
       name: name ?? this.name,
       adminId: adminId ?? this.adminId,
       cuisine: cuisine ?? this.cuisine,
@@ -50,6 +55,7 @@ class Restaurant {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'adminId': adminId,
       'cuisine': cuisine,
@@ -66,6 +72,7 @@ class Restaurant {
     if (map == null) return null;
 
     return Restaurant(
+      id: map['id'],
       name: map['name'],
       adminId: map['adminId'],
       cuisine: map['cuisine'],
@@ -74,7 +81,9 @@ class Restaurant {
       open: map['open'],
       close: map['close'],
       tables: Map<String, dynamic>.from(map['tables']),
-      menu: Map<String, dynamic>.from(map['menu']),
+      menu: (map['menu'] != null)
+          ? Map<String, dynamic>.from(map['tables'])
+          : null,
     );
   }
 
@@ -85,7 +94,7 @@ class Restaurant {
 
   @override
   String toString() {
-    return 'Restaurant(name: $name, adminId: $adminId, cuisine: $cuisine, phone: $phone, address: $address, open: $open, close: $close, tables: $tables, menu: $menu)';
+    return 'Restaurant(id: $id, name: $name, adminId: $adminId, cuisine: $cuisine, phone: $phone, address: $address, open: $open, close: $close, tables: $tables, menu: $menu)';
   }
 
   @override
@@ -93,6 +102,7 @@ class Restaurant {
     if (identical(this, o)) return true;
 
     return o is Restaurant &&
+        o.id == id &&
         o.name == name &&
         o.adminId == adminId &&
         o.cuisine == cuisine &&
@@ -106,7 +116,8 @@ class Restaurant {
 
   @override
   int get hashCode {
-    return name.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         adminId.hashCode ^
         cuisine.hashCode ^
         phone.hashCode ^

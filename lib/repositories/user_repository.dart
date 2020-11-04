@@ -8,6 +8,8 @@ class UserRepository {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference _restaurants =
       FirebaseFirestore.instance.collection('restaurants');
+  final CollectionReference _reservations =
+      FirebaseFirestore.instance.collection('reservations');
 
   UserRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -15,7 +17,10 @@ class UserRepository {
   Future<void> addUser(Client client) {
     // Call the user's CollectionReference to add a new user
     String uid = _firebaseAuth.currentUser.uid;
-    return _users.doc(uid).set(client.toMap());
+    return _users
+        .doc(uid)
+        .set(client.toMap())
+        .then((value) => _users.doc(uid).update({'id': uid}));
   }
 
   Future<String> getRole() async {
@@ -25,13 +30,27 @@ class UserRepository {
     return snapShot['role'];
   }
 
+  Future<Client> getUser() async {
+    // gets the user data from DB and returns a user instance
+    String uid = _firebaseAuth.currentUser.uid;
+    DocumentSnapshot snapShot = await _users.doc(uid).get();
+    return Client.fromMap(snapShot.data());
+  }
+
+  Future<Restaurant> getRestaurant(String restaurantId) async {
+    // Gets the restaurant data from DB and returns a Restaurant instance
+    final DocumentSnapshot snapShot = await _restaurants.doc(restaurantId).get();
+    return Restaurant.fromMap(snapShot.data());
+  }
+
   Future<void> addRestaurant(Restaurant restaurant) {
     // Call the user's CollectionReference to add a new user
     String uid = _firebaseAuth.currentUser.uid;
-    var newRestRef = _restaurants.doc();
-    return newRestRef
-        .set(restaurant.toMap())
-        .then((value) => newRestRef.update({'adminId': uid}));
+    DocumentReference newRestRef = _restaurants.doc();
+    return newRestRef.set(restaurant.toMap()).then((value) {
+      _users.doc(uid).update({'restaurantId': newRestRef.id});
+      newRestRef.update({'id': newRestRef.id, 'adminId': uid});
+    });
   }
 
   Future<void> signInWithCredentials(String email, String password) {

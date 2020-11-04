@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 class Client {
+  final String id;
+  final String restaurantId;
   final String role;
   final String name;
   final String last;
@@ -9,6 +11,8 @@ class Client {
   final DateTime regDate;
 
   Client({
+    this.id,
+    this.restaurantId,
     this.role,
     this.name,
     this.last,
@@ -18,6 +22,8 @@ class Client {
   });
 
   Client copyWith({
+    String id,
+    String restaurantId,
     String role,
     String name,
     String last,
@@ -26,6 +32,8 @@ class Client {
     DateTime regDate,
   }) {
     return Client(
+      id: id ?? this.id,
+      restaurantId: restaurantId ?? this.restaurantId,
       role: role ?? this.role,
       name: name ?? this.name,
       last: last ?? this.last,
@@ -37,6 +45,8 @@ class Client {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
+      'restaurantId': restaurantId,
       'role': role,
       'name': name,
       'last': last,
@@ -50,6 +60,8 @@ class Client {
     if (map == null) return null;
 
     return Client(
+      id: map['id'],
+      restaurantId: map['restaurantId'],
       role: map['role'],
       name: map['name'],
       last: map['last'],
@@ -65,7 +77,7 @@ class Client {
 
   @override
   String toString() {
-    return 'User(role: $role, name: $name, last: $last, email: $email, phone: $phone, regDate: $regDate)';
+    return 'Client(id: $id, restaurantId: $restaurantId, role: $role, name: $name, last: $last, email: $email, phone: $phone, regDate: $regDate)';
   }
 
   @override
@@ -73,6 +85,8 @@ class Client {
     if (identical(this, o)) return true;
 
     return o is Client &&
+        o.id == id &&
+        o.restaurantId == restaurantId &&
         o.role == role &&
         o.name == name &&
         o.last == last &&
@@ -83,7 +97,9 @@ class Client {
 
   @override
   int get hashCode {
-    return role.hashCode ^
+    return id.hashCode ^
+        restaurantId.hashCode ^
+        role.hashCode ^
         name.hashCode ^
         last.hashCode ^
         email.hashCode ^
