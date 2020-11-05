@@ -40,7 +40,6 @@ class MenuRegisterBloc extends Bloc<MenuRegisterEvent, MenuRegisterState> {
     yield LoadingData();
     try {
       if (name != '' && price != '') {
-        // this._menu[type][name] = toDouble(price);
         _menu.addAll({
           type: {name: toDouble(price)}
         });
@@ -57,8 +56,12 @@ class MenuRegisterBloc extends Bloc<MenuRegisterEvent, MenuRegisterState> {
   Stream<MenuRegisterState> _mapSubmittedToState() async* {
     yield LoadingData();
     try {
-      await _userRepository.registerMenu(this._restaurant, this._menu);
-      yield Success();
+      if (_menu.length > 0) {
+        await _userRepository.registerMenu(this._restaurant, this._menu);
+        yield Success();
+      } else {
+        yield Failure();
+      }
     } catch (e) {
       print('failure is: $e');
       yield Failure();

@@ -31,3 +31,18 @@ TextStyle menuRegStyle = new TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.white,
     fontSize: 35);
+
+TextStyle cardTitleStyle = new TextStyle(
+    fontFamily: 'Avenir',
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    fontSize: 25);
+
+TextStyle cardSubtytleStyle =
+    new TextStyle(fontFamily: 'Avenir', color: Colors.black, fontSize: 20);
+
+TextStyle searchScreenTextStyle = new TextStyle(
+  fontFamily: 'Avenir',
+  color: Colors.black,
+  fontSize: 30,
+);
