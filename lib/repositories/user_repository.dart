@@ -39,7 +39,8 @@ class UserRepository {
 
   Future<Restaurant> getRestaurant(String restaurantId) async {
     // Gets the restaurant data from DB and returns a Restaurant instance
-    final DocumentSnapshot snapShot = await _restaurants.doc(restaurantId).get();
+    final DocumentSnapshot snapShot =
+        await _restaurants.doc(restaurantId).get();
     return Restaurant.fromMap(snapShot.data());
   }
 
@@ -51,6 +52,11 @@ class UserRepository {
       _users.doc(uid).update({'restaurantId': newRestRef.id});
       newRestRef.update({'id': newRestRef.id, 'adminId': uid});
     });
+  }
+
+  Future<void> registerMenu(
+      Restaurant restaurant, Map<String, Map<String, double>> menu) {
+    return _restaurants.doc(restaurant.id).update({'menu': menu});
   }
 
   Future<void> signInWithCredentials(String email, String password) {

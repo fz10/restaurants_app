@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/client_screens/client_screens.dart';
 import 'package:restaurants_app/UI/initial_screen.dart';
 import 'package:restaurants_app/UI/splash_screen.dart';
+import 'package:restaurants_app/resources/style.dart';
 import 'UI/loading_screen.dart';
 import 'UI/restaurant_screens/restaurant_screens.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
@@ -37,8 +38,10 @@ class _AppState extends State<App> {
     return BlocProvider(
       create: (context) => _authenticationBloc,
       child: MaterialApp(
+        theme: ThemeData(accentColor: brandColor),
         debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        home: BlocBuilder(
+          cubit: _authenticationBloc,
           builder: (BuildContext context, AuthenticationState state) {
             if (state is Loading) {
               return LoadingScreen();

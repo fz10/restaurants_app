@@ -25,3 +25,9 @@ TextStyle title2 = new TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.white,
     fontSize: 40);
+
+TextStyle menuRegStyle = new TextStyle(
+    fontFamily: 'Avenir',
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: 35);
