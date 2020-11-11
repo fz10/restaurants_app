@@ -37,20 +37,11 @@ class UserRepository {
     return Client.fromMap(snapShot.data());
   }
 
-  Future<List<Restaurant>> searchRestaurants(String queryText) async {
-    // fetches restaurants by name and cuisine
-    QuerySnapshot byCuisine =
-        await _restaurants.where('cuisine', isEqualTo: queryText).get();
-    QuerySnapshot byName =
-        await _restaurants.where('name', isEqualTo: queryText).get();
-    List<Restaurant> restaurantList = byCuisine.docs
+  Future<List<Restaurant>> getAllRestaurants() async {
+    final QuerySnapshot querySnapshot = await _restaurants.get();
+    return querySnapshot.docs
         .map((doc) => Restaurant.fromMap(doc.data()))
-        .toList()
-          ..addAll(byName.docs
-              .map((doc) => Restaurant.fromMap(doc.data()))
-              .toList());
-    print(restaurantList);
-    return restaurantList;
+        .toList();
   }
 
   Future<Restaurant> getRestaurant(String restaurantId) async {

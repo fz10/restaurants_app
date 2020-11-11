@@ -32,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     _searchBloc = ClientSearchBloc(userRepository: _userRepository);
+    _searchBloc.add(InitSearch());
   }
 
   final TextEditingController _searchController = TextEditingController();

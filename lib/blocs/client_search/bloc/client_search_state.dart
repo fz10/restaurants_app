@@ -9,6 +9,7 @@ abstract class ClientSearchState extends Equatable {
 
 class ClientSearchInitial extends ClientSearchState {}
 
+
 class LoadingData extends ClientSearchState {}
 
 class Failure extends ClientSearchState {

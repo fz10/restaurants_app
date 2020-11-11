@@ -11,6 +11,7 @@ part 'client_search_state.dart';
 
 class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
   UserRepository _userRepository;
+  List<Restaurant> _restaurantList;
 
   ClientSearchBloc({
     @required UserRepository userRepository,
@@ -22,7 +23,9 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
   Stream<ClientSearchState> mapEventToState(
     ClientSearchEvent event,
   ) async* {
-    if (event is SearchSubmitted) {
+    if (event is InitSearch) {
+      yield* _mapInitSearchToState();
+    } else if (event is SearchSubmitted) {
       yield* _mapSubmittedToState(event.queryText);
     }
   }
@@ -30,16 +33,32 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
   Stream<ClientSearchState> _mapSubmittedToState(String queryText) async* {
     yield LoadingData();
     try {
-      final List<Restaurant> restaurantList =
-          await _userRepository.searchRestaurants(queryText);
-      if (restaurantList.isNotEmpty) {
-        yield Success(restaurantList: restaurantList);
+      if (queryText == '') {
+        yield Success(restaurantList: this._restaurantList);
+      } else if (this._restaurantList.length > 0) {
+        final List<Restaurant> restList = this._restaurantList.map((element) {
+          if (element.cuisine == queryText || element.name == queryText) {
+            return element;
+          }
+        }).toList()
+          ..removeWhere((element) => element == null);
+        yield Success(restaurantList: restList);
       } else {
         yield NoResults(message: 'No se encontraron resultados...');
       }
+    } catch (_) {
+      yield Failure(message: 'Error de filtro...');
+    }
+  }
+
+  Stream<ClientSearchState> _mapInitSearchToState() async* {
+    yield LoadingData();
+    try {
+      final restaurantList = await _userRepository.getAllRestaurants();
+      this._restaurantList = restaurantList;
+      yield Success(restaurantList: restaurantList);
     } catch (e) {
-      print('Failure is: $e');
-      yield Failure(message: 'Error de búsqueda');
+      yield Failure(message: 'Error al cargar restaurantes');
     }
   }
 }

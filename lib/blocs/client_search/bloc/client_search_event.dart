@@ -7,6 +7,8 @@ abstract class ClientSearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitSearch extends ClientSearchEvent {}
+
 class SearchSubmitted extends ClientSearchEvent {
   final String queryText;
 
@@ -15,4 +17,3 @@ class SearchSubmitted extends ClientSearchEvent {
   @override
   String toString() => 'Submitted';
 }
-
