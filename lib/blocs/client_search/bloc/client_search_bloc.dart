@@ -37,12 +37,17 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
         yield Success(restaurantList: this._restaurantList);
       } else if (this._restaurantList.length > 0) {
         final List<Restaurant> restList = this._restaurantList.map((element) {
-          if (element.cuisine == queryText || element.name == queryText) {
+          if (element.cuisine.toLowerCase().contains(queryText.toLowerCase()) ||
+              element.name.toLowerCase().contains(queryText.toLowerCase())) {
             return element;
           }
         }).toList()
           ..removeWhere((element) => element == null);
-        yield Success(restaurantList: restList);
+        if (restList.length > 0) {
+          yield Success(restaurantList: restList);
+        } else {
+          yield NoResults(message: 'No se encontraron resultados...');
+        }
       } else {
         yield NoResults(message: 'No se encontraron resultados...');
       }

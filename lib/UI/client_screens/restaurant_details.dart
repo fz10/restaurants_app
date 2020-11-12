@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:restaurants_app/resources/style.dart';
 
-class RestaurantDetails extends StatefulWidget {
-  @override
-  _RestaurantDetailsState createState() => _RestaurantDetailsState();
-}
-
-class _RestaurantDetailsState extends State<RestaurantDetails> {
+class RestaurantDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => moveToLastScreen(),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         backgroundColor: brandColor,
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: FloatingActionButton(
+          child: Icon(Icons.add, color: Colors.white, size: 30),
+          tooltip: 'Reservar',
+          onPressed: () {
+            _makeReservation();
+          },
+        ),
+      ),
     );
   }
 
-  void moveToLastScreen() {
-    Navigator.pop(context);
+  void _makeReservation() {
+    return null;
   }
 }
