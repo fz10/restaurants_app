@@ -46,3 +46,6 @@ TextStyle searchScreenTextStyle = new TextStyle(
   color: Colors.black,
   fontSize: 30,
 );
+
+RoundedRectangleBorder cardShape =
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));

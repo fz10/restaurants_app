@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurants_app/UI/client_screens/restaurant_details.dart';
 import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
 import 'package:restaurants_app/blocs/client_search/bloc/client_search_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
@@ -56,60 +57,62 @@ class _SearchScreenState extends State<SearchScreen> {
           )
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
           _showSearchBar(),
           SizedBox(height: 10),
-          BlocProvider(
-            create: (context) => _searchBloc,
-            child: BlocListener(
-              cubit: _searchBloc,
-              listener: (context, ClientSearchState state) {
-                if (state is Failure) {
-                  Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                      SnackBar(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(state.message),
-                            Icon(Icons.error),
-                          ],
-                        ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                }
-              },
-              child: BlocBuilder(
+          Expanded(
+            child: BlocProvider(
+              create: (context) => _searchBloc,
+              child: BlocListener(
                 cubit: _searchBloc,
-                builder: (context, ClientSearchState state) {
-                  if (state is Success) {
-                    return _getRestaurantListView(state.restaurantList);
-                  } else if (state is Failure) {
-                    return _defaultContent();
-                  } else if (state is LoadingData) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(vertical: 100),
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  } else if (state is NoResults) {
-                    return Container(
-                      margin: EdgeInsets.all(70),
-                      child: Center(
-                          child: Text(
-                        state.message,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20),
-                      )),
-                    );
-                  } else {
-                    return _defaultContent();
+                listener: (context, ClientSearchState state) {
+                  if (state is Failure) {
+                    Scaffold.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(state.message),
+                              Icon(Icons.error),
+                            ],
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                   }
                 },
+                child: BlocBuilder(
+                  cubit: _searchBloc,
+                  builder: (context, ClientSearchState state) {
+                    if (state is Success) {
+                      return _getRestaurantListView(state.restaurantList);
+                    } else if (state is Failure) {
+                      return _defaultContent();
+                    } else if (state is LoadingData) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(vertical: 100),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else if (state is NoResults) {
+                      return Container(
+                        margin: EdgeInsets.all(70),
+                        child: Center(
+                            child: Text(
+                          state.message,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20),
+                        )),
+                      );
+                    } else {
+                      return _defaultContent();
+                    }
+                  },
+                ),
               ),
             ),
           ),
@@ -135,30 +138,40 @@ class _SearchScreenState extends State<SearchScreen> {
     this.count = restaurantList.length;
 
     return ListView.builder(
-      shrinkWrap: true,
+      // shrinkWrap: true,
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Card(
-            color: Colors.white,
-            elevation: 10.0,
-            child: ListTile(
-              title: Text(
-                restaurantList[position].name,
-                style: cardTitleStyle,
+              shape: cardShape,
+              color: Colors.white,
+              elevation: 10,
+              child: ListTile(
+                shape: cardShape,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                title: Text(
+                  restaurantList[position].name,
+                  style: cardTitleStyle,
+                ),
+                subtitle: Text(
+                  restaurantList[position].cuisine,
+                  style: cardSubtytleStyle,
+                ),
+                trailing: Icon(
+                  Icons.restaurant,
+                  color: Colors.grey,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return RestaurantDetails();
+                    },
+                  ));
+                },
               ),
-              subtitle: Text(
-                restaurantList[position].cuisine,
-                style: cardSubtytleStyle,
-              ),
-              trailing: Icon(
-                Icons.restaurant,
-                color: Colors.grey,
-              ),
-              onTap: () {},
             ),
-          ),
         );
       },
     );
