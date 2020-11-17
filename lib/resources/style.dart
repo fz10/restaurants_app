@@ -49,3 +49,19 @@ TextStyle searchScreenTextStyle = new TextStyle(
 
 RoundedRectangleBorder cardShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));
+
+TextStyle restNameStyle = new TextStyle(
+    fontFamily: 'Avenir',
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    fontSize: 45);
+
+TextStyle subTitle = new TextStyle(
+    fontFamily: 'Avenir',
+    color: Colors.black,
+    fontSize: 35);
+
+TextStyle subTitle2 = new TextStyle(
+    fontFamily: 'Avenir',
+    color: Colors.black,
+    fontSize: 30);

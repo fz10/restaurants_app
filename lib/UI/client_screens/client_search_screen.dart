@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurants_app/UI/client_screens/restaurant_details.dart';
-import 'package:restaurants_app/blocs/authentication/bloc/bloc.dart';
 import 'package:restaurants_app/blocs/client_search/bloc/client_search_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
@@ -51,16 +50,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 centerTitle: true,
                 backgroundColor: brandColor,
                 elevation: 0,
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.exit_to_app),
-                    onPressed: () {
-                      BlocProvider.of<AuthenticationBloc>(context).add(
-                        LoggedOut(),
-                      );
-                    },
-                  )
-                ],
               ),
               body: Column(
                 children: [
@@ -176,7 +165,10 @@ class _SearchScreenState extends State<SearchScreen> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return RestaurantDetails();
+                    return RestaurantDetails(
+                        userRepository: _userRepository,
+                        user: _user,
+                        restaurant: restaurantList[position]);
                   },
                 ));
               },

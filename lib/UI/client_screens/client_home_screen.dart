@@ -3,6 +3,7 @@ import 'package:restaurants_app/models/client.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 
+import 'client_profile.dart';
 import 'client_search_screen.dart';
 
 class ClientHomeScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           user: _user,
           key: PageStorageKey('searchScreen')),
       Scaffold(),
-      Scaffold(),
+      ClientProfile(),
     ];
   }
 
