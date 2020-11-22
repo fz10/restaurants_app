@@ -82,7 +82,7 @@ class Restaurant {
       close: map['close'],
       tables: Map<String, dynamic>.from(map['tables']),
       menu: (map['menu'] != null)
-          ? Map<String, dynamic>.from(map['tables'])
+          ? Map<String, dynamic>.from(map['menu'])
           : null,
     );
   }

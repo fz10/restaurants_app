@@ -50,6 +50,9 @@ TextStyle searchScreenTextStyle = new TextStyle(
 RoundedRectangleBorder cardShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));
 
+RoundedRectangleBorder menuCardShape =
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
+
 TextStyle restNameStyle = new TextStyle(
     fontFamily: 'Avenir',
     fontWeight: FontWeight.bold,

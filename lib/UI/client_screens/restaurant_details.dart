@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurants_app/UI/client_screens/make_reservation.dart';
 import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
@@ -34,7 +35,15 @@ class RestaurantDetails extends StatelessWidget {
           child: Icon(Icons.add, color: Colors.white, size: 30),
           tooltip: 'Reservar',
           onPressed: () {
-            _makeReservation();
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return MakeReservation(
+                  userRepository: _userRepository,
+                  user: _user,
+                  restaurant: _restaurant,
+                );
+              },
+            ));
           },
         ),
       ),
@@ -133,9 +142,5 @@ class RestaurantDetails extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _makeReservation() {
-    return null;
   }
 }

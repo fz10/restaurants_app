@@ -21,7 +21,7 @@ class MenuRegisterBloc extends Bloc<MenuRegisterEvent, MenuRegisterState> {
       : assert(userRepository != null),
         _userRepository = userRepository,
         _restaurant = restaurant,
-        _menu = Map<String, Map<String, double>>(),
+        _menu = {'Platos': {}, 'Bebidas': {}, 'Otros': {}},
         super(MenuRegisterInitial());
 
   @override
@@ -40,9 +40,7 @@ class MenuRegisterBloc extends Bloc<MenuRegisterEvent, MenuRegisterState> {
     yield LoadingData();
     try {
       if (name != '' && price != '') {
-        _menu.addAll({
-          type: {name: toDouble(price)}
-        });
+        _menu[type].addAll({name: toDouble(price)});
         yield ItemSuccessfullyAdded();
       } else {
         yield Failure();

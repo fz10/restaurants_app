@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:restaurants_app/UI/client_screens/client_screens.dart';
 import 'package:restaurants_app/UI/initial_screen.dart';
 import 'package:restaurants_app/UI/splash_screen.dart';
@@ -38,6 +39,8 @@ class _AppState extends State<App> {
     return BlocProvider(
       create: (context) => _authenticationBloc,
       child: MaterialApp(
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        supportedLocales: [const Locale('en'), const Locale('es')],
         theme: ThemeData(accentColor: brandColor),
         debugShowCheckedModeBanner: false,
         home: BlocBuilder(
