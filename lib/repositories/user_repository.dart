@@ -52,12 +52,20 @@ class UserRepository {
   }
 
   Future<void> addRestaurant(Restaurant restaurant) {
-    // Call the user's CollectionReference to add a new user
+    // Call the Restaurants' CollectionReference to add a new restaurant
     String uid = _firebaseAuth.currentUser.uid;
     DocumentReference newRestRef = _restaurants.doc();
     return newRestRef.set(restaurant.toMap()).then((value) {
       _users.doc(uid).update({'restaurantId': newRestRef.id});
       newRestRef.update({'id': newRestRef.id, 'adminId': uid});
+    });
+  }
+
+  Future<void> addReservation(Reservation reservation) {
+    // Call the reservations' CollectionReference to add a new reservation
+    DocumentReference newResRef = _reservations.doc();
+    return newResRef.set(reservation.toMap()).then((value) {
+      newResRef.update({'id': newResRef.id});
     });
   }
 

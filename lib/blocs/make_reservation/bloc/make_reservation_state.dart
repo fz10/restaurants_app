@@ -8,50 +8,51 @@ abstract class MakeReservationState extends Equatable {
 }
 
 class MakeReservationInitial extends MakeReservationState {
-  final List<Map<String, dynamic>> menu;
+  final List<Map<String, dynamic>> order;
   final double total;
 
-  MakeReservationInitial({@required this.menu, @required this.total});
+  MakeReservationInitial({@required this.order, @required this.total});
 
   @override
   String toString() => 'MakeReservationInitial';
 }
 
 class Updated extends MakeReservationState {
-  final List<Map<String, dynamic>> menu;
-  final double total; 
+  final List<Map<String, dynamic>> order;
+  final double total;
 
-  Updated({@required this.menu, @required this.total});
+  Updated({@required this.order, @required this.total});
 
   @override
   String toString() => 'Updated';
 }
 
 class Success extends MakeReservationState {
-  final List<Map<String, dynamic>> menu;
+  final List<Map<String, dynamic>> order;
   final double total;
 
-  Success({@required this.menu, @required this.total});
+  Success({@required this.order, @required this.total});
 
   @override
   String toString() => 'Success';
 }
 
 class Failure extends MakeReservationState {
-  final List<Map<String, dynamic>> menu;
+  final String message;
+  final List<Map<String, dynamic>> order;
   final double total;
 
-  Failure({@required this.menu, @required this.total});
+  Failure({@required this.message, @required this.order, @required this.total});
 
   @override
   String toString() => 'Failure';
 }
 
 class LoadingReservation extends MakeReservationState {
-  final List<Map<String, dynamic>> menu;
+  final List<Map<String, dynamic>> order;
   final double total;
 
-  LoadingReservation({@required this.menu, @required this.total});
+  LoadingReservation({@required this.order, @required this.total});
 
   @override
   String toString() => 'LoadingReservation';

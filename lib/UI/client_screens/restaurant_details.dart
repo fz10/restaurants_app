@@ -19,35 +19,40 @@ class RestaurantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
+    return WillPopScope(
+      onWillPop: () {
+        _moveToLastScreen(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () => _moveToLastScreen(context),
+          ),
+          title: Text('Detalles del restaurante'),
+          centerTitle: true,
+          backgroundColor: brandColor,
         ),
-        title: Text('Detalles del restaurante'),
-        centerTitle: true,
-        backgroundColor: brandColor,
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.white, size: 30),
-          tooltip: 'Reservar',
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) {
-                return MakeReservation(
-                  userRepository: _userRepository,
-                  user: _user,
-                  restaurant: _restaurant,
-                );
-              },
-            ));
-          },
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: FloatingActionButton(
+            child: Icon(Icons.add, color: Colors.white, size: 30),
+            tooltip: 'Reservar',
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) {
+                  return MakeReservation(
+                    userRepository: _userRepository,
+                    user: _user,
+                    restaurant: _restaurant,
+                  );
+                },
+              ));
+            },
+          ),
         ),
+        body: _restaurantDetails(),
       ),
-      body: _restaurantDetails(),
     );
   }
 
@@ -142,5 +147,9 @@ class RestaurantDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _moveToLastScreen(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }
