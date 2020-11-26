@@ -90,6 +90,7 @@ class _MakeReservationState extends State<MakeReservation> {
               if (state is Success) {
                 _showSuccessDialog();
                 Navigator.of(context)..pop()..pop();
+                _showSuccessDialog();
               } else if (state is Failure) {
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
