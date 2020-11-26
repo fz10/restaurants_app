@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurants_app/UI/client_screens/reservations.dart';
 import 'package:restaurants_app/models/client.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
@@ -34,7 +35,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           userRepository: _userRepository,
           user: _user,
           key: PageStorageKey('searchScreen')),
-      Scaffold(),
+      Reservations(userRepository: _userRepository, user: _user),
       ClientProfile(),
     ];
   }
