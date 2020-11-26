@@ -68,13 +68,18 @@ class _MakeReservationState extends State<MakeReservation> {
           label: Text('Reservar',
               style: TextStyle(color: Colors.white, fontSize: 15)),
           onPressed: () {
-            _makeReservationBloc.add(SubmittedWithMenu(
-                date: _date,
-                from: _from,
-                until: _until,
-                people: _people,
-                restaurant: _restaurant,
-                user: _user));
+            if (_date != '----' &&
+                _from != '--' &&
+                _until != '--' &&
+                _people > 0) {
+              _makeReservationBloc.add(SubmittedWithMenu(
+                  date: _date,
+                  from: _from,
+                  until: _until,
+                  people: _people,
+                  restaurant: _restaurant,
+                  user: _user));
+            }
           },
         ),
         body: BlocProvider(
@@ -84,6 +89,7 @@ class _MakeReservationState extends State<MakeReservation> {
             listener: (context, state) {
               if (state is Success) {
                 Navigator.of(context)..pop()..pop();
+                _showSuccessDialog();
               } else if (state is Failure) {
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
@@ -304,13 +310,18 @@ class _MakeReservationState extends State<MakeReservation> {
           sliver: SliverToBoxAdapter(
             child: RaisedButton(
               onPressed: () {
-                _makeReservationBloc.add(SubmittedNotMenu(
-                    date: _date,
-                    from: _from,
-                    until: _until,
-                    people: _people,
-                    restaurant: _restaurant,
-                    user: _user));
+                if (_date != '----' &&
+                    _from != '--' &&
+                    _until != '--' &&
+                    _people > 0) {
+                  _makeReservationBloc.add(SubmittedNotMenu(
+                      date: _date,
+                      from: _from,
+                      until: _until,
+                      people: _people,
+                      restaurant: _restaurant,
+                      user: _user));
+                }
               },
               color: brandColor,
               shape: RoundedRectangleBorder(
@@ -517,6 +528,24 @@ class _MakeReservationState extends State<MakeReservation> {
                   },
                   child: Text('Cancelar')),
             ],
+          );
+        });
+  }
+
+  Future _showSuccessDialog() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          Future.delayed(Duration(milliseconds: 1500), () {
+            Navigator.of(context).pop(true);
+          });
+          return AlertDialog(
+            elevation: 10,
+            shape: cardShape,
+            title: Center(child: Text('¡Reserva exitosa!')),
+            content:
+                Icon(Icons.check_circle_outline, color: Colors.green, size: 60),
           );
         });
   }
