@@ -12,7 +12,6 @@ part 'client_reservations_state.dart';
 class ClientReservationsBloc
     extends Bloc<ClientReservationsEvent, ClientReservationsState> {
   UserRepository _userRepository;
-  List<Reservation> _reservationList;
 
   ClientReservationsBloc({
     @required UserRepository userRepository,
@@ -34,7 +33,7 @@ class ClientReservationsBloc
     yield LoadingReservations();
     try {
       final reservationList = await _userRepository.getAllReservations(userId);
-      this._reservationList = reservationList;
+      reservationList.sort((a, b) => a.state.compareTo(b.state));
       if (reservationList.isNotEmpty) {
         yield Success(reservationList: reservationList);
       } else {

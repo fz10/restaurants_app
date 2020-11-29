@@ -6,3 +6,4 @@ export 'client_profile.dart';
 export 'make_reservation.dart';
 export 'restaurant_details.dart';
 export 'reservations.dart';
+export 'reservation_details.dart';

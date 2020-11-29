@@ -82,6 +82,11 @@ class UserRepository {
     return _restaurants.doc(restaurant.id).update({'menu': menu});
   }
 
+  Future<void> changeReservationState(String id, String newState) {
+    return _reservations.doc(id).update({'state': newState}).then(
+        (value) => print('Reservation State Changed'));
+  }
+
   Future<void> signInWithCredentials(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(
       email: email,

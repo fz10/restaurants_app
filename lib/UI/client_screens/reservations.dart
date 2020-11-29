@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurants_app/UI/client_screens/reservation_details.dart';
 import 'package:restaurants_app/blocs/client_reservations/bloc/client_reservations_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
@@ -135,6 +136,14 @@ class _ReservationsState extends State<Reservations> {
                   ),
                   Text('${reservation.inTime} - ${reservation.outTime}',
                       style: cardSubtytleStyle),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      _getStateIcon(reservation.state),
+                      SizedBox(width: 5),
+                      Text(reservation.state, style: cardSubtytleStyle)
+                    ],
+                  ),
                 ],
               ),
               trailing: Icon(
@@ -145,10 +154,10 @@ class _ReservationsState extends State<Reservations> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    // return ReservationDetails(
-                    //     userRepository: _userRepository,
-                    //     user: _user,
-                    //     reservation: reservation);
+                    return ReservationDetails(
+                        userRepository: _userRepository,
+                        user: _user,
+                        reservation: reservation);
                   },
                 ));
               },
@@ -170,6 +179,16 @@ class _ReservationsState extends State<Reservations> {
         ),
       ),
     );
+  }
+
+  Icon _getStateIcon(String state) {
+    if (state == 'activa') {
+      return Icon(Icons.alarm_on, size: 40, color: Colors.blue);
+    } else if (state == 'confirmada') {
+      return Icon(Icons.check_circle, size: 30, color: Colors.green);
+    } else {
+      return Icon(Icons.cancel, size: 30, color: Colors.red);
+    }
   }
 
   @override
