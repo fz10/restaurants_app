@@ -6,3 +6,12 @@ abstract class ClientReservationsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadReservations extends ClientReservationsEvent {
+  String userId;
+
+  LoadReservations({@required this.userId});
+
+  @override
+  String toString() => 'LoadReservations';
+}

@@ -23,5 +23,26 @@ class ClientReservationsBloc
   @override
   Stream<ClientReservationsState> mapEventToState(
     ClientReservationsEvent event,
-  ) async* {}
+  ) async* {
+    if (event is LoadReservations) {
+      yield* _mapLoadReservationsToState(event.userId);
+    }
+  }
+
+  Stream<ClientReservationsState> _mapLoadReservationsToState(
+      String userId) async* {
+    yield LoadingReservations();
+    try {
+      final reservationList = await _userRepository.getAllReservations(userId);
+      this._reservationList = reservationList;
+      if (reservationList.isNotEmpty) {
+        yield Success(reservationList: reservationList);
+      } else {
+        yield (NoResults(message: 'No tienes reservas'));
+      }
+    } catch (e) {
+      yield Failure(message: 'Error al cargar reservas');
+      print('Error is: $e');
+    }
+  }
 }
