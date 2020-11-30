@@ -57,7 +57,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           listener: (BuildContext context, ClientReservationDetailsState state) {
             if (state is SuccessState) {
               _showSuccessDialog();
-              Navigator.of(context)..pop();
+              Navigator.of(context).pop();
             } else if (state is FailureState) {
               Scaffold.of(context)
                 ..hideCurrentSnackBar()

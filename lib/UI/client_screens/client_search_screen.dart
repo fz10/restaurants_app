@@ -134,48 +134,51 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  ListView _getRestaurantListView(List<Restaurant> restaurantList) {
+  Widget _getRestaurantListView(List<Restaurant> restaurantList) {
     this.count = restaurantList.length;
 
-    return ListView.builder(
-      itemCount: count,
-      itemBuilder: (BuildContext context, int position) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Card(
-            shape: cardShape,
-            color: Colors.white,
-            elevation: 10,
-            child: ListTile(
+    return RefreshIndicator(
+      onRefresh: () async => _searchBloc.add(InitSearch()),
+      child: ListView.builder(
+        itemCount: count,
+        itemBuilder: (BuildContext context, int position) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Card(
               shape: cardShape,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-              title: Text(
-                restaurantList[position].name,
-                style: cardTitleStyle,
+              color: Colors.white,
+              elevation: 10,
+              child: ListTile(
+                shape: cardShape,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                title: Text(
+                  restaurantList[position].name,
+                  style: cardTitleStyle,
+                ),
+                subtitle: Text(
+                  restaurantList[position].cuisine,
+                  style: cardSubtytleStyle,
+                ),
+                trailing: Icon(
+                  Icons.restaurant,
+                  color: Colors.grey,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return RestaurantDetails(
+                          userRepository: _userRepository,
+                          user: _user,
+                          restaurant: restaurantList[position]);
+                    },
+                  ));
+                },
               ),
-              subtitle: Text(
-                restaurantList[position].cuisine,
-                style: cardSubtytleStyle,
-              ),
-              trailing: Icon(
-                Icons.restaurant,
-                color: Colors.grey,
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return RestaurantDetails(
-                        userRepository: _userRepository,
-                        user: _user,
-                        restaurant: restaurantList[position]);
-                  },
-                ));
-              },
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

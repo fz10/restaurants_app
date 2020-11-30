@@ -107,64 +107,68 @@ class _ReservationsState extends State<Reservations> {
     );
   }
 
-  ListView _getReservationListView(List<Reservation> reservationList) {
-    return ListView.builder(
-      itemCount: reservationList.length,
-      itemBuilder: (BuildContext context, int position) {
-        Reservation reservation = reservationList[position];
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Card(
-            shape: cardShape,
-            color: Colors.white,
-            elevation: 10,
-            child: ListTile(
+  Widget _getReservationListView(List<Reservation> reservationList) {
+    return RefreshIndicator(
+      onRefresh: () async =>
+          _reservationsBloc.add(LoadReservations(userId: _user.id)),
+      child: ListView.builder(
+        itemCount: reservationList.length,
+        itemBuilder: (BuildContext context, int position) {
+          Reservation reservation = reservationList[position];
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Card(
               shape: cardShape,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              title: Center(
-                child: Text(
-                  reservation.restName,
-                  style: cardTitleStyle,
+              color: Colors.white,
+              elevation: 10,
+              child: ListTile(
+                shape: cardShape,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                title: Center(
+                  child: Text(
+                    reservation.restName,
+                    style: cardTitleStyle,
+                  ),
                 ),
+                subtitle: Column(
+                  children: [
+                    Text(
+                      'Fecha: ${reservation.date}',
+                      style: cardSubtytleStyle,
+                    ),
+                    Text('${reservation.inTime} - ${reservation.outTime}',
+                        style: cardSubtytleStyle),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _getStateIcon(reservation.state),
+                        SizedBox(width: 5),
+                        Text(reservation.state, style: cardSubtytleStyle)
+                      ],
+                    ),
+                  ],
+                ),
+                trailing: Icon(
+                  Icons.book,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return ReservationDetails(
+                          userRepository: _userRepository,
+                          user: _user,
+                          reservation: reservation);
+                    },
+                  ));
+                },
               ),
-              subtitle: Column(
-                children: [
-                  Text(
-                    'Fecha: ${reservation.date}',
-                    style: cardSubtytleStyle,
-                  ),
-                  Text('${reservation.inTime} - ${reservation.outTime}',
-                      style: cardSubtytleStyle),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      _getStateIcon(reservation.state),
-                      SizedBox(width: 5),
-                      Text(reservation.state, style: cardSubtytleStyle)
-                    ],
-                  ),
-                ],
-              ),
-              trailing: Icon(
-                Icons.book,
-                color: Colors.grey,
-                size: 50,
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return ReservationDetails(
-                        userRepository: _userRepository,
-                        user: _user,
-                        reservation: reservation);
-                  },
-                ));
-              },
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
