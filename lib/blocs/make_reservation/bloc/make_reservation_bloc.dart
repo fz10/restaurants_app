@@ -70,7 +70,8 @@ class MakeReservationBloc
         userId: event.user.id,
         userName: event.user.name,
         userEmail: event.user.email,
-        state: 'activa',
+        state: 'Activa',
+        priority: 0,
       ));
       yield (Success(order: _order, total: _total));
     } catch (e) {
@@ -94,7 +95,8 @@ class MakeReservationBloc
         userId: event.user.id,
         userName: event.user.name,
         userEmail: event.user.email,
-        state: 'activa',
+        state: 'Activa',
+        priority: 0,
       ));
       yield (Success(order: _order, total: _total));
     } catch (e) {

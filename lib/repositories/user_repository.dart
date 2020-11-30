@@ -82,8 +82,8 @@ class UserRepository {
     return _restaurants.doc(restaurant.id).update({'menu': menu});
   }
 
-  Future<void> changeReservationState(String id, String newState) {
-    return _reservations.doc(id).update({'state': newState}).then(
+  Future<void> changeReservationState(String id, String newState, int priority) {
+    return _reservations.doc(id).update({'state': newState, 'priority' : priority}).then(
         (value) => print('Reservation State Changed'));
   }
 

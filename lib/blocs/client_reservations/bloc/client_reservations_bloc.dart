@@ -33,7 +33,7 @@ class ClientReservationsBloc
     yield LoadingReservations();
     try {
       final reservationList = await _userRepository.getAllReservations(userId);
-      reservationList.sort((a, b) => a.state.compareTo(b.state));
+      reservationList.sort((a, b) => a.priority.compareTo(b.priority));
       if (reservationList.isNotEmpty) {
         yield Success(reservationList: reservationList);
       } else {

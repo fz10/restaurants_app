@@ -182,9 +182,9 @@ class _ReservationsState extends State<Reservations> {
   }
 
   Icon _getStateIcon(String state) {
-    if (state == 'activa') {
+    if (state == 'Activa') {
       return Icon(Icons.alarm_on, size: 40, color: Colors.blue);
-    } else if (state == 'confirmada') {
+    } else if (state == 'Confirmada') {
       return Icon(Icons.check_circle, size: 30, color: Colors.green);
     } else {
       return Icon(Icons.cancel, size: 30, color: Colors.red);

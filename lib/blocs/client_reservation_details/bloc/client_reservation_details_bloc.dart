@@ -29,7 +29,7 @@ class ClientReservationDetailsBloc
   Stream<ClientReservationDetailsState> _mapCanceledEventToState(
       String id, String newState) async* {
     try {
-      await _userRepository.changeReservationState(id, newState);
+      await _userRepository.changeReservationState(id, newState, 2);
       yield SuccessState();
     } catch (e) {
       yield FailureState(message: 'Error al cancelar reserva');

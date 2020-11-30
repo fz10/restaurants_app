@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurants_app/UI/client_screens/reservations.dart';
 import 'package:restaurants_app/blocs/client_reservation_details/bloc/client_reservation_details_bloc.dart';
 import 'package:restaurants_app/blocs/client_reservations/bloc/client_reservations_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
@@ -56,7 +57,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           listener: (BuildContext context, ClientReservationDetailsState state) {
             if (state is SuccessState) {
               _showSuccessDialog();
-              Navigator.of(context).pop();
+              Navigator.of(context)..pop();
             } else if (state is FailureState) {
               Scaffold.of(context)
                 ..hideCurrentSnackBar()
@@ -168,7 +169,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           SizedBox(
             height: 60,
           ),
-          (_reservation.state == 'activa')
+          (_reservation.state == 'Activa')
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -203,9 +204,9 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   }
 
   Icon _getStateIcon(String state) {
-    if (state == 'activa') {
+    if (state == 'Activa') {
       return Icon(Icons.alarm_on, size: 50, color: Colors.blue);
-    } else if (state == 'confirmada') {
+    } else if (state == 'Confirmada') {
       return Icon(Icons.check_circle, size: 50, color: Colors.green);
     } else {
       return Icon(Icons.cancel, size: 50, color: Colors.red);
@@ -271,7 +272,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               FlatButton(
                 onPressed: () {
                   _detailsBloc.add(CanceledEvent(
-                      id: _reservation.id, newState: 'cancelada'));
+                      id: _reservation.id, newState: 'Cancelada'));
                   Navigator.pop(context);
                 },
                 child: Text('Aceptar'),

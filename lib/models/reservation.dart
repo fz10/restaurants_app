@@ -15,6 +15,7 @@ class Reservation {
   final String outTime;
   final Map<String, dynamic> order;
   final String state;
+  final int priority;
 
   Reservation({
     this.id,
@@ -29,6 +30,7 @@ class Reservation {
     this.outTime,
     this.order,
     this.state,
+    this.priority,
   });
 
   Reservation copyWith({
@@ -44,6 +46,7 @@ class Reservation {
     String outTime,
     Map<String, dynamic> order,
     String state,
+    int priority,
   }) {
     return Reservation(
       id: id ?? this.id,
@@ -58,6 +61,7 @@ class Reservation {
       outTime: outTime ?? this.outTime,
       order: order ?? this.order,
       state: state ?? this.state,
+      priority: priority ?? this.priority,
     );
   }
 
@@ -75,6 +79,7 @@ class Reservation {
       'outTime': outTime,
       'order': order,
       'state': state,
+      'priority': priority,
     };
   }
 
@@ -96,6 +101,7 @@ class Reservation {
           ? Map<String, dynamic>.from(map['order'])
           : null,
       state: map['state'],
+      priority: map['priority'],
     );
   }
 
@@ -106,7 +112,7 @@ class Reservation {
 
   @override
   String toString() {
-    return 'Reservation(id: $id, restId: $restId, restName: $restName, userId: $userId, userName: $userName, userEmail: $userEmail, date: $date, tables: $tables, inTime: $inTime, outTime: $outTime, order: $order, state: $state)';
+    return 'Reservation(id: $id, restId: $restId, restName: $restName, userId: $userId, userName: $userName, userEmail: $userEmail, date: $date, tables: $tables, inTime: $inTime, outTime: $outTime, order: $order, state: $state, priority: $priority)';
   }
 
   @override
@@ -125,7 +131,8 @@ class Reservation {
         o.inTime == inTime &&
         o.outTime == outTime &&
         mapEquals(o.order, order) &&
-        o.state == state;
+        o.state == state &&
+        o.priority == priority;
   }
 
   @override
@@ -141,6 +148,7 @@ class Reservation {
         inTime.hashCode ^
         outTime.hashCode ^
         order.hashCode ^
-        state.hashCode;
+        state.hashCode ^
+        priority.hashCode;
   }
 }

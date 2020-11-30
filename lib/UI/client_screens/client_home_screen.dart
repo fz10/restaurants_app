@@ -42,7 +42,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   final Map<String, IconData> _icons = const {
     'Búsqueda': Icons.search,
-    'Reservas': Icons.book,
+    'Reservas': Icons.collections_bookmark,
     'Perfil': Icons.person,
   };
 
