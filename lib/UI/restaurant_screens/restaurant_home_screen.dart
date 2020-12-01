@@ -38,9 +38,7 @@ class _RestaurantHomeScreenState extends State<RestaurantHomeScreen> {
     super.initState();
     _screens = [
       RestaurantReservations(
-          userRepository: _userRepository,
-          restaurant: _restaurant,
-          userRestaurant: _userRestaurant),
+          userRepository: _userRepository, restaurant: _restaurant),
       RestaurantProfile(),
     ];
   }

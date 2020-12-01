@@ -93,7 +93,7 @@ class MakeReservationBloc
         restName: event.restaurant.name,
         tables: (event.people / 5).ceil(),
         userId: event.user.id,
-        userName: event.user.name,
+        userName: '${event.user.name} ${event.user.last}',
         userEmail: event.user.email,
         state: 'Activa',
         priority: 0,
