@@ -30,7 +30,7 @@ class CreateAccountButton extends StatelessWidget {
           MaterialPageRoute(builder: (context) {
             if (_role == 'client') {
               return ClientRegisterScreen(userRepository: _userRepository);
-            } else if (_role == 'admin') {
+            } else {
               return RestaurantRegisterScreen(userRepository: _userRepository);
             }
           }),

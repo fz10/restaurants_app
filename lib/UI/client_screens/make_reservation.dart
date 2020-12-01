@@ -50,8 +50,9 @@ class _MakeReservationState extends State<MakeReservation> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         _moveToLastScreen(context);
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -280,7 +281,7 @@ class _MakeReservationState extends State<MakeReservation> {
                   backgroundColor: Colors.white,
                   onPressed: () {
                     setState(() {
-                      _people > 0 ? _people -= 1 : null;
+                      _people > 0 ? _people -= 1 : _people = _people;
                     });
                   },
                   child: Icon(Icons.remove, size: 40, color: brandColor),
@@ -551,7 +552,7 @@ class _MakeReservationState extends State<MakeReservation> {
   }
 
   void _moveToLastScreen(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   @override

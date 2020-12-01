@@ -9,16 +9,11 @@ import 'package:restaurants_app/resources/style.dart';
 class RestaurantReservations extends StatefulWidget {
   final UserRepository _userRepository;
   final Restaurant _restaurant;
-  final Client _userRestaurant;
 
   const RestaurantReservations(
-      {Key key,
-      @required userRepository,
-      Client userRestaurant,
-      Restaurant restaurant})
+      {Key key, @required userRepository, Restaurant restaurant})
       : assert(userRepository != null),
         _userRepository = userRepository,
-        _userRestaurant = userRestaurant,
         _restaurant = restaurant,
         super();
 
@@ -28,7 +23,6 @@ class RestaurantReservations extends StatefulWidget {
 
 class _RestaurantReservationsState extends State<RestaurantReservations> {
   UserRepository get _userRepository => widget._userRepository;
-  Client get _userRestaurant => widget._userRestaurant;
   Restaurant get _restaurant => widget._restaurant;
   List<Reservation> reservationList;
 

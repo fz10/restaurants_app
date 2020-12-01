@@ -20,8 +20,9 @@ class RestaurantDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         _moveToLastScreen(context);
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -150,6 +151,6 @@ class RestaurantDetails extends StatelessWidget {
   }
 
   void _moveToLastScreen(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 }
