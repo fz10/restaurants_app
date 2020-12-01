@@ -8,7 +8,7 @@ abstract class ClientReservationsEvent extends Equatable {
 }
 
 class LoadReservations extends ClientReservationsEvent {
-  String userId;
+  final String userId;
 
   LoadReservations({@required this.userId});
 

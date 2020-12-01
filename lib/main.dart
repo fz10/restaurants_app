@@ -66,8 +66,10 @@ class _AppState extends State<App> {
             }
             if (state is AuthenticatedRestaurant) {
               return RestaurantHomeScreen(
-                  userRepository: _userRepository,
-                  restaurant: state.restaurant);
+                userRepository: _userRepository,
+                restaurant: state.restaurant,
+                userRestaurant: state.userRestaurant,
+              );
             }
             return LoadingScreen();
           },

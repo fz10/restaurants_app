@@ -77,6 +77,14 @@ class UserRepository {
         .toList();
   }
 
+  Future<List<Reservation>> getAllReservationsByRestaurant(String restId) async {
+    final QuerySnapshot querySnapshot =
+        await _reservations.where('restId', isEqualTo: restId).get();
+    return querySnapshot.docs
+        .map((doc) => Reservation.fromMap(doc.data()))
+        .toList();
+  }
+
   Future<void> registerMenu(
       Restaurant restaurant, Map<String, Map<String, double>> menu) {
     return _restaurants.doc(restaurant.id).update({'menu': menu});

@@ -24,8 +24,9 @@ class AuthenticatedClient extends AuthenticationState {
 
 class AuthenticatedRestaurant extends AuthenticationState {
   final Restaurant restaurant;
+  final Client userRestaurant;
 
-  AuthenticatedRestaurant({this.restaurant}) : super([restaurant]);
+  AuthenticatedRestaurant({this.restaurant, this.userRestaurant}) : super([restaurant]);
 
   @override
   String toString() => 'Authenticated client';

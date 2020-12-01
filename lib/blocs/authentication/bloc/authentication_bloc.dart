@@ -68,7 +68,7 @@ class AuthenticationBloc
         if (restaurant.menu == null) {
           yield NotMenu(restaurant);
         } else {
-          yield AuthenticatedRestaurant(restaurant: restaurant);
+          yield AuthenticatedRestaurant(restaurant: restaurant, userRestaurant: user);
         }
       }
     } catch (e) {

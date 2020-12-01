@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurants_app/blocs/client_reservation_details/bloc/client_reservation_details_bloc.dart';
+import 'package:restaurants_app/blocs/restaurant_reservation_details/bloc/restaurant_reservation_details_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 
-class ReservationDetails extends StatefulWidget {
+class RestaurantReservationDetails extends StatefulWidget {
   final UserRepository _userRepository;
   final Reservation _reservation;
 
-  const ReservationDetails(
+  const RestaurantReservationDetails(
       {Key key, @required userRepository, Reservation reservation})
       : assert(userRepository != null),
         _userRepository = userRepository,
@@ -17,20 +17,22 @@ class ReservationDetails extends StatefulWidget {
         super();
 
   @override
-  _ReservationDetailsState createState() => _ReservationDetailsState();
+  _RestaurantReservationDetailsState createState() =>
+      _RestaurantReservationDetailsState();
 }
 
-class _ReservationDetailsState extends State<ReservationDetails> {
+class _RestaurantReservationDetailsState
+    extends State<RestaurantReservationDetails> {
   UserRepository get _userRepository => widget._userRepository;
   Reservation get _reservation => widget._reservation;
 
-  ClientReservationDetailsBloc _detailsBloc;
+  RestaurantReservationDetailsBloc _detailsBloc;
 
   @override
   void initState() {
     super.initState();
     _detailsBloc =
-        ClientReservationDetailsBloc(userRepository: _userRepository);
+        RestaurantReservationDetailsBloc(userRepository: _userRepository);
   }
 
   @override
@@ -49,9 +51,12 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         create: (context) => _detailsBloc,
         child: BlocListener(
           cubit: _detailsBloc,
-          listener: (BuildContext context, ClientReservationDetailsState state) {
+          listener: (context, state) {
             if (state is SuccessState) {
-              _showSuccessDialog();
+              _showSuccessDialog(state.message);
+              Navigator.of(context).pop();
+            } else if (state is SuccessState) {
+              _showSuccessDialog('confirmada');
               Navigator.of(context).pop();
             } else if (state is FailureState) {
               Scaffold.of(context)
@@ -85,13 +90,14 @@ class _ReservationDetailsState extends State<ReservationDetails> {
             padding: EdgeInsets.symmetric(vertical: 5),
             child: Column(
               children: [
-                Text(_reservation.restName, style: restNameStyle),
+                Text(_reservation.userName, style: subTitle),
+                Text(_reservation.userEmail, style: TextStyle(fontSize: 25)),
                 Divider(color: Colors.grey, thickness: 2)
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 2),
             child: Column(
               children: [
                 Row(
@@ -99,10 +105,14 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                   children: [
                     Icon(
                       Icons.event,
-                      size: 40,
+                      size: 30,
                     ),
-                    Text('Fecha: ', style: subTitle),
-                    Text(_reservation.date, style: subTitle2)
+                    Text('Fecha: ',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    Text(_reservation.date,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold))
                   ],
                 ),
                 Divider(color: Colors.grey, thickness: 2),
@@ -157,38 +167,66 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           (_reservation.order != null)
               ? Text(
                   'Total: \$ ${_reservation.order['total']}',
-                  style: subTitle2,
+                  style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.end,
                 )
               : Container(),
           SizedBox(
-            height: 60,
+            height: 20,
           ),
           (_reservation.state == 'Activa')
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              ? Column(
                   children: [
                     _showState(),
-                    SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: RaisedButton(
-                        color: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 155,
+                          child: RaisedButton(
+                            color: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            onPressed: _onConfirmedSubmitted,
+                            child: Row(
+                              children: [
+                                Icon(Icons.check,
+                                    size: 30, color: Colors.white),
+                                Text('Confirmar',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20))
+                              ],
+                            ),
+                          ),
                         ),
-                        onPressed: _onCancelSubmitted,
-                        child: Row(
-                          children: [
-                            Icon(Icons.close, size: 30, color: Colors.white),
-                            Text('Cancelar',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20))
-                          ],
+                        SizedBox(
+                          height: 50,
+                          width: 155,
+                          child: RaisedButton(
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            onPressed: _onCancelSubmitted,
+                            child: Row(
+                              children: [
+                                Icon(Icons.close,
+                                    size: 30, color: Colors.white),
+                                Text('Cancelar',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20))
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 )
@@ -206,6 +244,16 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     } else {
       return Icon(Icons.cancel, size: 50, color: Colors.red);
     }
+  }
+
+  Widget _showState() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _getStateIcon(_reservation.state),
+        Text(_reservation.state, style: subTitle2)
+      ],
+    );
   }
 
   Widget _showOrderDetails(BuildContext context) {
@@ -246,14 +294,29 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     );
   }
 
-  Widget _showState() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _getStateIcon(_reservation.state),
-        Text(_reservation.state, style: subTitle2)
-      ],
-    );
+  Future _onConfirmedSubmitted() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('¿Desea confirmar la llegada del cliente?'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  _detailsBloc.add(ConfirmedEvent(
+                      id: _reservation.id, newState: 'Confirmada'));
+                  Navigator.pop(context);
+                },
+                child: Text('Aceptar'),
+              ),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancelar')),
+            ],
+          );
+        });
   }
 
   Future _onCancelSubmitted() {
@@ -282,7 +345,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         });
   }
 
-  Future _showSuccessDialog() {
+  Future _showSuccessDialog(String message) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -293,8 +356,11 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           return AlertDialog(
             elevation: 10,
             shape: cardShape,
-            title: Center(child: Text('¡Reserva cancelada exitosamente!', textAlign: TextAlign.center)),
-            content: Icon(Icons.check_circle_outline, color: Colors.green, size: 60),
+            title: Center(
+                child: Text('¡Reserva $message exitosamente!',
+                    textAlign: TextAlign.center)),
+            content:
+                Icon(Icons.check_circle_outline, color: Colors.green, size: 60),
           );
         });
   }

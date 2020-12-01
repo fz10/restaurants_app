@@ -1,37 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurants_app/UI/client_screens/reservation_details.dart';
-import 'package:restaurants_app/blocs/client_reservations/bloc/client_reservations_bloc.dart';
+import 'package:restaurants_app/UI/restaurant_screens/restaurant_reservation_details.dart';
+import 'package:restaurants_app/blocs/restaurant_reservations/bloc/restaurant_reservations_bloc.dart';
 import 'package:restaurants_app/models/models.dart';
 import 'package:restaurants_app/repositories/user_repository.dart';
 import 'package:restaurants_app/resources/style.dart';
 
-class Reservations extends StatefulWidget {
+class RestaurantReservations extends StatefulWidget {
   final UserRepository _userRepository;
-  final Client _user;
+  final Restaurant _restaurant;
+  final Client _userRestaurant;
 
-  const Reservations({Key key, @required userRepository, Client user})
+  const RestaurantReservations(
+      {Key key,
+      @required userRepository,
+      Client userRestaurant,
+      Restaurant restaurant})
       : assert(userRepository != null),
         _userRepository = userRepository,
-        _user = user,
+        _userRestaurant = userRestaurant,
+        _restaurant = restaurant,
         super();
 
   @override
-  _ReservationsState createState() => _ReservationsState();
+  _RestaurantReservationsState createState() => _RestaurantReservationsState();
 }
 
-class _ReservationsState extends State<Reservations> {
+class _RestaurantReservationsState extends State<RestaurantReservations> {
   UserRepository get _userRepository => widget._userRepository;
-  Client get _user => widget._user;
+  Client get _userRestaurant => widget._userRestaurant;
+  Restaurant get _restaurant => widget._restaurant;
   List<Reservation> reservationList;
 
-  ClientReservationsBloc _reservationsBloc;
+  RestaurantReservationsBloc _reservationsBloc;
 
   @override
   void initState() {
     super.initState();
-    _reservationsBloc = ClientReservationsBloc(userRepository: _userRepository);
-    _reservationsBloc.add(LoadReservations(userId: _user.id));
+    _reservationsBloc =
+        RestaurantReservationsBloc(userRepository: _userRepository);
+    _reservationsBloc.add(LoadReservations(restId: _restaurant.id));
   }
 
   @override
@@ -43,7 +51,7 @@ class _ReservationsState extends State<Reservations> {
             builder: (context) {
               return Scaffold(
                 appBar: AppBar(
-                  title: Text('Lista de tus reservas'),
+                  title: Text('Reservas de clientes'),
                   centerTitle: true,
                   backgroundColor: brandColor,
                 ),
@@ -110,7 +118,7 @@ class _ReservationsState extends State<Reservations> {
   Widget _getReservationListView(List<Reservation> reservationList) {
     return RefreshIndicator(
       onRefresh: () async =>
-          _reservationsBloc.add(LoadReservations(userId: _user.id)),
+          _reservationsBloc.add(LoadReservations(restId: _restaurant.id)),
       child: ListView.builder(
         itemCount: reservationList.length,
         itemBuilder: (BuildContext context, int position) {
@@ -127,7 +135,7 @@ class _ReservationsState extends State<Reservations> {
                     EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 title: Center(
                   child: Text(
-                    reservation.restName,
+                    reservation.userName,
                     style: cardTitleStyle,
                   ),
                 ),
@@ -140,11 +148,18 @@ class _ReservationsState extends State<Reservations> {
                     Text('${reservation.inTime} - ${reservation.outTime}',
                         style: cardSubtytleStyle),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _getStateIcon(reservation.state),
-                        SizedBox(width: 5),
-                        Text(reservation.state, style: cardSubtytleStyle)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            _getStateIcon(reservation.state),
+                            SizedBox(width: 5),
+                            Text(reservation.state, style: cardSubtytleStyle)
+                          ],
+                        ),
+                        Text('Mesas: ${reservation.tables}',
+                            style: cardSubtytleStyle)
                       ],
                     ),
                   ],
@@ -157,7 +172,7 @@ class _ReservationsState extends State<Reservations> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
-                      return ReservationDetails(
+                      return RestaurantReservationDetails(
                           userRepository: _userRepository,
                           reservation: reservation);
                     },
