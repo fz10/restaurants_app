@@ -49,82 +49,76 @@ class _MakeReservationState extends State<MakeReservation> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        _moveToLastScreen(context);
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => _moveToLastScreen(context),
-          ),
-          title: Text('Personalizar reserva'),
-          centerTitle: true,
-          backgroundColor: brandColor,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => _moveToLastScreen(context),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          icon: Icon(Icons.check, color: Colors.white, size: 30),
-          label: Text('Reservar',
-              style: TextStyle(color: Colors.white, fontSize: 15)),
-          onPressed: () {
-            if (_date != '----' &&
-                _from != '--' &&
-                _until != '--' &&
-                _people > 0) {
-              _makeReservationBloc.add(SubmittedWithMenu(
-                  date: _date,
-                  from: _from,
-                  until: _until,
-                  people: _people,
-                  restaurant: _restaurant,
-                  user: _user));
+        title: Text('Personalizar reserva'),
+        centerTitle: true,
+        backgroundColor: brandColor,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.check, color: Colors.white, size: 30),
+        label: Text('Reservar',
+            style: TextStyle(color: Colors.white, fontSize: 15)),
+        onPressed: () {
+          if (_date != '----' &&
+              _from != '--' &&
+              _until != '--' &&
+              _people > 0) {
+            _makeReservationBloc.add(SubmittedWithMenu(
+                date: _date,
+                from: _from,
+                until: _until,
+                people: _people,
+                restaurant: _restaurant,
+                user: _user));
+          }
+        },
+      ),
+      body: BlocProvider(
+        create: (context) => _makeReservationBloc,
+        child: BlocListener(
+          cubit: _makeReservationBloc,
+          listener: (context, state) {
+            if (state is Success) {
+              _showSuccessDialog();
+              Navigator.of(context)..pop()..pop();
+            } else if (state is Failure) {
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(state.message),
+                        Icon(Icons.error),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
             }
           },
-        ),
-        body: BlocProvider(
-          create: (context) => _makeReservationBloc,
-          child: BlocListener(
-            cubit: _makeReservationBloc,
-            listener: (context, state) {
-              if (state is Success) {
-                _showSuccessDialog();
-                Navigator.of(context)..pop()..pop();
-              } else if (state is Failure) {
-                Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(state.message),
-                          Icon(Icons.error),
-                        ],
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
+          child: BlocBuilder(
+              cubit: _makeReservationBloc,
+              builder: (BuildContext context, MakeReservationState state) {
+                if (state is MakeReservationInitial) {
+                  return showScreenContent(context);
+                } else if (state is Updated) {
+                  return Column(
+                    children: [
+                      showOrderDetails(context, state.order, state.total),
+                      Expanded(child: showScreenContent(context)),
+                    ],
                   );
-              }
-            },
-            child: BlocBuilder(
-                cubit: _makeReservationBloc,
-                builder: (BuildContext context, MakeReservationState state) {
-                  if (state is MakeReservationInitial) {
-                    return showScreenContent(context);
-                  } else if (state is Updated) {
-                    return Column(
-                      children: [
-                        showOrderDetails(context, state.order, state.total),
-                        Expanded(child: showScreenContent(context)),
-                      ],
-                    );
-                  } else {
-                    return showScreenContent(context);
-                  }
-                }),
-          ),
+                } else {
+                  return showScreenContent(context);
+                }
+              }),
         ),
       ),
     );
@@ -552,7 +546,7 @@ class _MakeReservationState extends State<MakeReservation> {
   }
 
   void _moveToLastScreen(BuildContext context) {
-    Navigator.of(context).pop(true);
+    return Navigator.of(context).pop();
   }
 
   @override

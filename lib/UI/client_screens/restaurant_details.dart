@@ -19,12 +19,7 @@ class RestaurantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        _moveToLastScreen(context);
-        return true;
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -53,7 +48,6 @@ class RestaurantDetails extends StatelessWidget {
           ),
         ),
         body: _restaurantDetails(),
-      ),
     );
   }
 
@@ -151,6 +145,6 @@ class RestaurantDetails extends StatelessWidget {
   }
 
   void _moveToLastScreen(BuildContext context) {
-    Navigator.of(context).pop(true);
+    return Navigator.of(context).pop();
   }
 }
