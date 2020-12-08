@@ -38,7 +38,8 @@ class UserRepository {
   }
 
   Future<List<Restaurant>> getAllRestaurants() async {
-    final QuerySnapshot querySnapshot = await _restaurants.get();
+    final QuerySnapshot querySnapshot =
+        await _restaurants.where('menu', isGreaterThan: null).get();
     return querySnapshot.docs
         .map((doc) => Restaurant.fromMap(doc.data()))
         .toList();
@@ -61,6 +62,20 @@ class UserRepository {
     });
   }
 
+  Future<void> updateRestaurant(Restaurant restaurant) {
+    // Call the Restaurants' CollectionReference to edit an existing restaurant
+    return _restaurants.doc(restaurant.id).update({
+      'name': restaurant.name,
+      'cuisine': restaurant.cuisine,
+      'phone': restaurant.phone,
+      'address': restaurant.address,
+      'open': restaurant.open,
+      'close': restaurant.close,
+      'tables': restaurant.tables,
+      'menu': restaurant.menu,
+    }).then((value) => print('Restaurant updated successfully'));
+  }
+
   Future<void> addReservation(Reservation reservation) {
     // Call the reservations' CollectionReference to add a new reservation
     DocumentReference newResRef = _reservations.doc();
@@ -77,7 +92,8 @@ class UserRepository {
         .toList();
   }
 
-  Future<List<Reservation>> getAllReservationsByRestaurant(String restId) async {
+  Future<List<Reservation>> getAllReservationsByRestaurant(
+      String restId) async {
     final QuerySnapshot querySnapshot =
         await _reservations.where('restId', isEqualTo: restId).get();
     return querySnapshot.docs
@@ -90,9 +106,12 @@ class UserRepository {
     return _restaurants.doc(restaurant.id).update({'menu': menu});
   }
 
-  Future<void> changeReservationState(String id, String newState, int priority) {
-    return _reservations.doc(id).update({'state': newState, 'priority' : priority}).then(
-        (value) => print('Reservation State Changed'));
+  Future<void> changeReservationState(
+      String id, String newState, int priority) {
+    return _reservations
+        .doc(id)
+        .update({'state': newState, 'priority': priority}).then(
+            (value) => print('Reservation State Changed'));
   }
 
   Future<void> signInWithCredentials(String email, String password) {

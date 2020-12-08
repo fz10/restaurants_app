@@ -9,7 +9,6 @@ import 'restaurant_reservations.dart';
 class RestaurantHomeScreen extends StatefulWidget {
   final UserRepository _userRepository;
   final Restaurant _restaurant;
-  final Client _userRestaurant;
 
   const RestaurantHomeScreen(
       {Key key,
@@ -19,7 +18,6 @@ class RestaurantHomeScreen extends StatefulWidget {
       : assert(userRepository != null),
         _userRepository = userRepository,
         _restaurant = restaurant,
-        _userRestaurant = userRestaurant,
         super(key: key);
 
   @override
@@ -29,7 +27,6 @@ class RestaurantHomeScreen extends StatefulWidget {
 class _RestaurantHomeScreenState extends State<RestaurantHomeScreen> {
   UserRepository get _userRepository => widget._userRepository;
   Restaurant get _restaurant => widget._restaurant;
-  Client get _userRestaurant => widget._userRestaurant;
 
   List<Widget> _screens;
 
@@ -39,7 +36,10 @@ class _RestaurantHomeScreenState extends State<RestaurantHomeScreen> {
     _screens = [
       RestaurantReservations(
           userRepository: _userRepository, restaurant: _restaurant),
-      RestaurantProfile(),
+      RestaurantProfile(
+        userRepository: _userRepository,
+        restaurant: _restaurant,
+      ),
     ];
   }
 
